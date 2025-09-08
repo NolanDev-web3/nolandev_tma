@@ -1,0 +1,44 @@
+/* SpinWheel.css */
+.spin-wheel-container {
+  position: relative;
+  width: 350px;
+  height: 350px;
+  margin: 0 auto;
+}
+
+.wheelRing {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  /*transition: transform 5s ease-out;*/ /* 平滑旋转效果，持续时间与JS一致 */
+}
+
+.pointer {
+  width: 60%;
+  height: 60%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+/* .spin-btn {
+  margin-top: 300px;
+  padding: 10px 20px;
+  font-size: 16px;
+} */
+
+.prize-result {
+  margin-top: 20px;
+  font-size: 20px;
+  color: green;
+}

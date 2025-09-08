@@ -1,0 +1,62 @@
+.gl-container {
+	display: flex;
+	flex-direction: column;
+	padding: 15px 15px 15px 15px;
+	/* padding-bottom: var(--tg-viewport-safe-area-inset-bottom); */
+	background-color: transparent;
+}
+
+.gl-gamepanel {
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	color: black;
+	padding: 15px;
+	border-radius: 10px;
+}
+
+.gl-loading-spinner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.gl-gametitle-div {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.gl-game-name {
+	font-family: var(--tgui--font-family);
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.gl-gameicon {
+	width: 96px;
+	height: 96px;
+	border-radius: 10px;
+	margin-right: 10px;
+}
+
+
+.gl-game-desc {
+	font-family: var(--tgui--font-family);
+	color: #555555;
+	font-size: 15px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.gl-gamebutton-div {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+}
+
+.gl-playbutton {
+	margin-top: 10px;
+	margin-bottom: 15px;
+}

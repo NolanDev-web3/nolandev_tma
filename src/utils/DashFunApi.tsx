@@ -39,12 +39,12 @@ const api_url = () => {
 
 		return api_test;
 	}
-	if (url.indexOf("https://tma.fish-verse.com") >= 0) {
+	if (url.indexOf("https://tma.nolandevq.com") >= 0) {
 		env = Env.Prod
 
 		return api_prod;
 	}
-	if (url.indexOf("https://app.fish-verse.com") >= 0) {
+	if (url.indexOf("https://app.nolandevq.com") >= 0) {
 		env = Env.Prod
 
 		return api_prod;

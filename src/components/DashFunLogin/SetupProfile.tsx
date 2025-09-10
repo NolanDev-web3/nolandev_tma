@@ -1,14 +1,15 @@
-import { FC, useState } from "react";
-import useDashFunSafeArea from "../DashFun/DashFunSafeArea";
 import dashfunIcon from "@/icons/nolan-icon-512.png";
-import { DFAvatar } from "../Avatar/Avatar";
-import { DFButton, DFLabel, DFText } from "../controls";
-import { Input } from "@telegram-apps/telegram-ui";
-import { User } from "lucide-react";
 import AvatarUpload from "@/pages/GameCenterPage/Components/AvatarUploader";
 import { FishingVerseApi } from "@/utils/DashFunApi";
 import { initData, useSignal } from "@telegram-apps/sdk-react";
+import { Input } from "@telegram-apps/telegram-ui";
+import { User } from "lucide-react";
+import { FC, useState } from "react";
+import { DFAvatar } from "../Avatar/Avatar";
+import { DFLabel, DFText } from "../controls";
+import useDashFunSafeArea from "../DashFun/DashFunSafeArea";
 import { UserProfileUpdatedEvent } from "../Event/Events";
+import { NeonButton } from "../NeonUI/NeonUI";
 import { dataURLtoBlob } from "../Utils/File";
 
 const SetupProfile: FC = () => {
@@ -87,7 +88,7 @@ const SetupProfile: FC = () => {
 					/>
 				</div>
 				{error && <DFLabel rounded="md"><div className='py-1 px-4'>{error}</div></DFLabel>}
-				<DFButton size="m" type="submit" loading={uploading} disabled={uploading}>Enter</DFButton>
+				<NeonButton type="submit" loading={uploading} disabled={uploading}>Enter</NeonButton>
 			</form>
 		</div>
 	</div >

@@ -69,7 +69,7 @@ const SetupProfile: FC = () => {
 			<div className="absolute max-w-screen-sm sm:aligen-center sm:mx-auto top-[-425px] left-1/2 -translate-x-1/2 w-[100%] h-[650px] bg-[radial-gradient(circle,rgba(0,200,255,0.3)_0%,transparent_70%)] pointer-events-none z-0"></div>
 			<div className='w-full flex flex-col py-4 items-center gap-2'>
 				<DFAvatar src={dashfunIcon} size={128} />
-				<DFText weight='3' size="3xl">FishingVerse</DFText>
+				<DFText weight='3' size="3xl">NolanDev</DFText>
 				<DFText weight='1' size="xl">Please setup your profile</DFText>
 			</div>
 			<AvatarUpload size={128} onAvatarSelected={(avatar) => {

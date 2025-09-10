@@ -1,5 +1,5 @@
 import aniSuccess from "@/assets/animation/successful.json";
-import dashfunIcon from "@/icons/icon-fishing.png";
+import dashfunIcon from "@/icons/nolan-icon-512.png";
 import { makeBrowserEnv, } from "@/mockEnv";
 import { AccApi, AccountStatus, AccountType, DashFunAccount, getEnv } from "@/utils/DashFunApi";
 import { Player } from "@lottiefiles/react-lottie-player";
@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { DFAvatar } from '../Avatar/Avatar';
 import { DFButton, DFLabel, DFText } from '../controls';
 import useDashFunSafeArea from "../DashFun/DashFunSafeArea";
+import { NeonButton } from "../NeonUI/NeonUI";
 
 interface DashFunLoginProps {
 	onLogin?: (acc: DashFunAccount) => void;
@@ -80,7 +81,7 @@ const Header: React.FC<{ mode: UiMode }> = ({ mode }) => {
 
 	return <div className='w-full flex flex-col py-4 items-center gap-2'>
 		<DFAvatar src={dashfunIcon} size={128} />
-		<DFText weight='3' size="3xl">FishingVerse</DFText>
+		<DFText weight='3' size="3xl">NolanDev</DFText>
 		<DFText weight='1' size="xl">{title}</DFText>
 	</div>
 }
@@ -265,12 +266,12 @@ const VerifyEmail: React.FC<DashFunVerifyProps> = ({ acc, onVerified }) => {
 		}
 		{error && <DFLabel rounded="md"><div className='py-1 px-4'>{error}</div></DFLabel>}
 		{
-			(codeSent && !verified && <DFButton size="l" type="submit" loading={verifying} disabled={verifying}>
+			(codeSent && !verified && <NeonButton asBlock type="submit" loading={verifying} disabled={verifying}>
 				Verify
-			</DFButton>)
+			</NeonButton>)
 		}
 		{
-			!codeSent && !verified && <DFButton size="l" onClick={async () => {
+			!codeSent && !verified && <NeonButton asBlock onClick={async () => {
 				try {
 					setError('');
 					await AccApi.requestSendEmail(acc.account_id)
@@ -281,14 +282,14 @@ const VerifyEmail: React.FC<DashFunVerifyProps> = ({ acc, onVerified }) => {
 				}
 			}}>
 				Send Code
-			</DFButton>
+			</NeonButton>
 		}
 		{
 			(verified && <div className="flex items-center justify-center flex-col gap-4">
 				<Result msg="Email verified successfully!" />
-				<DFButton size="l" onClick={() => {
+				<NeonButton asBlock onClick={() => {
 					onVerified && onVerified(verifiedAcc!);
-				}}>Enter FishVerse!</DFButton>
+				}}>Enter FishVerse!</NeonButton>
 			</div>)
 		}
 	</form>
@@ -390,7 +391,7 @@ const Register: React.FC<DashFunRegisterProps> = ({ onRegsiter, onAction }) => {
 			{error && <DFLabel rounded="md"><div className='py-1 px-4'>{error}</div></DFLabel>}
 			<div className="flex w-full">
 				<div className="flex-1 text-center">
-					<DFButton loading={loading} size='l' type="submit">Sign Up</DFButton>
+					<NeonButton asBlock loading={loading} type="submit">Sign Up</NeonButton>
 				</div>
 			</div>
 			<div className="flex w-full">
@@ -499,7 +500,7 @@ const Login: React.FC<DashFunLoginProps> = ({ onLogin, onAction }) => {
 			{error && <DFLabel rounded="md"><div className='py-1 px-4'>{error}</div></DFLabel>}
 			<div className="flex w-full">
 				<div className="flex-1 text-center">
-					<DFButton size='l' type="submit" loading={loading} disabled={loading} >Sign In</DFButton>
+					<NeonButton asBlock type="submit" loading={loading} disabled={loading} >Sign In</NeonButton>
 				</div>
 			</div>
 			<div className="flex w-full">
@@ -713,9 +714,9 @@ const ResetPassword: React.FC<DashFunResetProps> = ({ onAction }) => {
 			{error && <DFLabel rounded="md"><div className='py-1 px-4'>{error}</div></DFLabel>}
 			<div className="flex w-full">
 				<div className="flex-1 text-center">
-					<DFButton size='l' type="submit" loading={loading} disabled={loading} >
+					<NeonButton asBlock type="submit" loading={loading} disabled={loading} >
 						{mode == 0 ? "Send Reset Code" : "Reset Password"}
-					</DFButton>
+					</NeonButton>
 				</div>
 			</div>
 			<div className="flex w-full">

@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import useDashFunSafeArea from "../DashFun/DashFunSafeArea";
-import dashfunIcon from "@/icons/icon-fishing.png";
+import dashfunIcon from "@/icons/nolan-icon-512.png";
 import { DFAvatar } from "../Avatar/Avatar";
 import { DFButton, DFLabel, DFText } from "../controls";
 import { Input } from "@telegram-apps/telegram-ui";

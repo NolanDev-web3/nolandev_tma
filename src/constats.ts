@@ -4,6 +4,7 @@ import dashfunPointIcon from "./icons/dashfun-xp-icon.png";
 import dashfunCoinIcon from "./icons/dashfun-coin-icon.png";
 import dashfunDiamond from "./icons/dashfun-diamond4.png";
 import fpIcon from "./icons/fp-icon.png";
+import npIcon from "./icons/np-icon.png";
 import leaderboardIcon from "./icons/leaderboard.png";
 import dashfunTicket from "./icons/dashfun-ticket.png";
 import starIcon from "./icons/icon-tgstar.png";
@@ -202,6 +203,8 @@ export const getCoinIcon = (coinName: "DashFunCoin" | "DashFunPoint" | "DashFunD
 			return dashfunTicket;
 		case "FishingPoint":
 			return fpIcon;
+		case "NolanDevPoint":
+			return npIcon;
 		default:
 			return dashfunIcon;
 	}

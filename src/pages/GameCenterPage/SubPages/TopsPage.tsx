@@ -8,6 +8,7 @@ import xpIcon from "@/icons/dashfun-xp-icon.png"
 import { toCurrency } from "@/constats"
 import { DFUserAvatar } from "@/components/Avatar/Avatar"
 import { DFCell, DFText } from "@/components/controls"
+import { NeonListItem } from "@/components/NeonUI/NeonUI"
 
 type TopListItem = {
 	id: string,
@@ -26,7 +27,7 @@ export const GameCenter_TopPage: FC = () => {
 	const getXpTop = async () => {
 		setLoading(true);
 		try {
-			const result = await LeaderBoardApi.fpTop(initDataRaw as string);
+			const result = await LeaderBoardApi.ndpTop(initDataRaw as string);
 			setXpTopList(result);
 		} finally {
 			setLoading(false);
@@ -41,7 +42,7 @@ export const GameCenter_TopPage: FC = () => {
 
 	return <div id="GameCenter_TopPage" className="w-full h-full flex flex-col px-4 pt-4 items-center gap-2">
 		<ProfileHeader />
-		<DFText size="2xl" weight="2" className="py-4 w-full text-center">FP Leaderboard</DFText>
+		<DFText size="2xl" weight="2" className="py-4 w-full text-center">NP Leaderboard</DFText>
 		<LeaderboardList list={xpTopList.slice(0, -1)} />
 		{myRank && <div className="w-full py-2"><LeaderboardItem item={myRank} highlight={true} /></div>}
 	</div>
@@ -62,17 +63,25 @@ const LeaderboardList: FC<{ list: TopListItem[] }> = ({ list }) => {
 
 const LeaderboardItem: FC<{ item: TopListItem, highlight?: boolean }> = ({ item, highlight = false }) => {
 	return <div className="w-full px-2">
-		<DFCell className="w-full" mode={highlight ? "highlight" : "normal"}
+		{/* <DFCell className="w-full" mode={highlight ? "highlight" : "normal"}
 			after={<div className="flex flex-row items-center gap-1">
 				<div className="w-16 text-right">{toCurrency(item.score, 0)}</div>
 				<img src={xpIcon} className="w-5 h-5" />
 			</div>}
-		>
-			<div className="w-full flex flex-row items-center">
-				<DFText color="inherit" weight="3" className="w-10 pl-1">{item.rank == 0 ? "" : item.rank}</DFText>
-				<DFUserAvatar size={32} userId={item.id} avatarPath={item.avatar} displayName={item.display_name} />
-				<DFText weight="1" color="inherit" size="lg" className="min-w-0 truncate pl-2">{item.display_name}</DFText>
-			</div>
-		</DFCell>
-	</div>
+		> */}
+		<NeonListItem className="w-full" mode={highlight ? "highlight" : "plain"}
+			selected={highlight}
+			leftSlot={
+				<div className="flex flex-row items-center">
+					<DFText color="inherit" weight="3" className="w-10 pl-1">{item.rank == 0 ? "" : item.rank}</DFText>
+					<DFUserAvatar size={32} userId={item.id} avatarPath={item.avatar} displayName={item.display_name} />
+				</div>
+			}
+			rightHint={<div className="flex flex-row items-center gap-1">
+				<div className="w-16 text-right">{toCurrency(item.score, 0)}</div>
+				<img src={xpIcon} className="w-5 h-5" />
+			</div>}
+			text={item.display_name}
+		/>
+	</div >
 }

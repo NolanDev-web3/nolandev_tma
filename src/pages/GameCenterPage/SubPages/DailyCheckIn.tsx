@@ -1,12 +1,12 @@
-import { FC, useState } from "react";
-import ProfileHeader from "../Components/ProfileHeader";
+import AddLocation from "@/components/AddLocation/AddLocation";
 import { DFButton, DFText } from "@/components/controls";
 import { useDashFunUser } from "@/components/DashFun/DashFunUser";
+import { NolanDevApi } from "@/utils/DashFunApi";
+import { initData, useSignal } from "@telegram-apps/sdk-react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AddLocation from "@/components/AddLocation/AddLocation";
-import { FishSelect } from "@/components/FishSelect/FishSelect";
-import { FishingVerseApi } from "@/utils/DashFunApi";
-import { useSignal, initData } from "@telegram-apps/sdk-react";
+import ProfileHeader from "../Components/ProfileHeader";
+import { NeonButton } from "@/components/NeonUI/NeonUI";
 
 export const FishingVerse_DailyCheckIn: FC = () => {
 	const user = useDashFunUser();
@@ -23,7 +23,7 @@ export const FishingVerse_DailyCheckIn: FC = () => {
 		}
 		setPosting(true);
 		try {
-			await FishingVerseApi.post(initDataRaw as string, post, location, fish);
+			await NolanDevApi.post(initDataRaw as string, post, location, fish);
 			setPost("");
 			setLocation("");
 			setFish("");
@@ -50,16 +50,14 @@ export const FishingVerse_DailyCheckIn: FC = () => {
 					</DFText>
 				</div>
 				<div className="flex flex-col items-center flex-1">
-					<DFText weight="2" size="xl">Daily Check-in</DFText>
+					<DFText weight="2" size="xl">Daily Alpha</DFText>
 					<DFText weight="1" size="m">@{user?.nickname}</DFText>
 				</div>
-				<div className="w-[100px]">
-					<DFButton size="m" disabled={post.trim() === "" || posting} loading={posting} onClick={() => {
-						// Handle send action
-						sendPost();
-					}}>
-						Send
-					</DFButton>
+				<div className="w-[100px] flex justify-end">
+					<NeonButton disabled={post.trim() === "" || posting} loading={posting}
+						onClick={() => sendPost()}>
+						Post
+					</NeonButton>
 				</div>
 			</div>
 		</div>
@@ -75,9 +73,9 @@ export const FishingVerse_DailyCheckIn: FC = () => {
 			<AddLocation onLocationChanged={l => {
 				setLocation(l);
 			}} />
-			<FishSelect onChange={(f) => {
+			{/* <FishSelect onChange={(f) => {
 				setFish(f);
-			}} />
+			}} /> */}
 		</div>
 	</div>;
 }

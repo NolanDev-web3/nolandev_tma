@@ -23,7 +23,7 @@ import MainPage from "@/pages/MainPage/MainPage";
 import { TestingPage } from "@/pages/TestingPage/TestingPage";
 import { ThemeParamsPage } from "@/pages/ThemeParamsPage/ThemeParamsPage.tsx";
 import { TONConnectPage } from "@/pages/TONConnectPage/TONConnectPage";
-import { Fish, Gift, ShoppingCart, Trophy, Users, Wallet2 } from "lucide-react";
+import { Bitcoin, Cctv, Fish, Gift, ScanEye, ShoppingCart, Trophy, Users, Wallet2 } from "lucide-react";
 import { createHashRouter, RouteObject, useNavigate } from "react-router-dom";
 
 export interface AppRoute {
@@ -80,8 +80,8 @@ export const routes: AppRoute[] = [
   {
     id: "gamecenter", path: "/game-center", Component: GameCenterPage, allowYScroll: false, back: "nop",
     subRoutes: [
-      { id: "gamecenter-main", path: "main", Component: GameCenter_MainPage, allowYScroll: true, back: "close", title: "Fishing", icon: <Fish absoluteStrokeWidth size={28} /> },
-      { id: "gamecenter-games", path: "games", Component: GameCenter_GamesPage, allowYScroll: true, back: "/game-center/main", title: "NFT Shop", icon: <ShoppingCart absoluteStrokeWidth size={28} /> },
+      { id: "gamecenter-main", path: "main", Component: GameCenter_MainPage, allowYScroll: true, back: "close", title: "Main", icon: < Bitcoin absoluteStrokeWidth size={28} /> },
+      { id: "gamecenter-games", path: "games", Component: GameCenter_GamesPage, allowYScroll: true, back: "/game-center/main", title: "Watch", icon: <Cctv absoluteStrokeWidth size={28} /> },
       { id: "gamecenter-tasks", path: "tasks", Component: GameCenter_TaskPage, allowYScroll: true, back: "/game-center/main", title: "Tasks", icon: <Gift absoluteStrokeWidth size={28} /> },
       { id: "gamecenter-friends", path: "friends", Component: GameCenter_FriendsPage, allowYScroll: true, back: "/game-center/main", title: "Friends", icon: <Users absoluteStrokeWidth size={28} /> },
       { id: "gamecenter-wallet", path: "wallet", Component: GameCenter_WalletPage, allowYScroll: true, back: "/game-center/main", title: "Wallet", icon: <Wallet2 absoluteStrokeWidth size={28} /> },

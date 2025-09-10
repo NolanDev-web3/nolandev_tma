@@ -1,5 +1,6 @@
 import { DFLabel, DFText } from "@/components/controls";
 import { FC, useEffect, useState } from "react";
+import { NeonCard } from "../NeonUI/NeonUI";
 
 //const kc_signup_url = "https://www.kucoin.com/ucenter/signup"
 
@@ -15,21 +16,19 @@ export const CountDown: FC<{ remaining: number }> = ({ remaining = 0 }) => {
 	const minutes = Math.floor((countdown % 3600) / 60);
 	const seconds = countdown % 60;
 
-	return (countdown <= 0 ? "" : <div className="w-full flex flex-col gap-4">
-		<DFLabel rounded="lg">
-			<div className="w-full flex flex-col items-center justify-center gap-2 py-2 px-4 ">
-				<DFText weight="3" size="xl">Check-in After:</DFText>
-				{/* <DFText weight="3" size="3xl">{hours}h {minutes}m {seconds}s</DFText> */}
-				<div className="w-full flex flex-row items-center justify-center gap-4">
-					<CountdownPanel countdown={hours} unit="Hr" />
-					<DFText size="3xl" weight="3">:</DFText>
-					<CountdownPanel countdown={minutes} unit="Min" />
-					<DFText size="3xl" weight="3">:</DFText>
-					<CountdownPanel countdown={seconds} unit="Sec" />
-				</div>
+	return (countdown <= 0 ? "" : <NeonCard className="w-full flex flex-col gap-4">
+		<div className="w-full flex flex-col items-center justify-center gap-2 py-2 px-4 ">
+			<DFText weight="3" size="xl">Check-in After:</DFText>
+			{/* <DFText weight="3" size="3xl">{hours}h {minutes}m {seconds}s</DFText> */}
+			<div className="w-full flex flex-row items-center justify-center gap-4">
+				<CountdownPanel countdown={hours} unit="Hr" />
+				<DFText size="3xl" weight="3">:</DFText>
+				<CountdownPanel countdown={minutes} unit="Min" />
+				<DFText size="3xl" weight="3">:</DFText>
+				<CountdownPanel countdown={seconds} unit="Sec" />
 			</div>
-		</DFLabel>
-	</div>
+		</div>
+	</NeonCard>
 	)
 }
 

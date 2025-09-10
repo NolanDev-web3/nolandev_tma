@@ -13,6 +13,7 @@ import { FC, PropsWithChildren, ReactNode, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AvatarUpload from "../Components/AvatarUploader";
 import ProfileHeader from "../Components/ProfileHeader";
+import { NeonButton } from "@/components/NeonUI/NeonUI";
 
 export const GameCenter_Profile: FC = () => {
 	const nav = useNavigate();
@@ -91,9 +92,9 @@ export const GameCenter_Profile: FC = () => {
 
 		{(
 			!isInTelegram() && <div className="w-full flex flex-col flex-1 justify-end">
-				<DFButton mode="normal" loading={loading} disabled={loading} onClick={() => {
+				<NeonButton mode="plain" loading={loading} disabled={loading} onClick={() => {
 					signOut();
-				}}>Sign Out</DFButton>
+				}}>Sign Out</NeonButton>
 			</div>
 		)}
 

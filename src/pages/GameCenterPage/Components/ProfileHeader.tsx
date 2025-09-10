@@ -21,7 +21,7 @@ const ProfileHeader: FC<{ disableClick?: boolean }> = ({ disableClick = false })
 	const forceDark = true; // l.pathname.endsWith("/main") || themeParams.isDark();
 	const [_1, _2, _3, getCoinInfo] = useDashFunCoins();
 
-	const dp = getCoinInfo("FishingPoint", "name");
+	const dp = getCoinInfo("NolanDevPoint", "name");
 	// const dc = getCoinInfo("DashFunCoin", "name");
 
 	//<div className="flex flex-col items-center w-full gap-2 rounded-xl px-3 py-2 bg-white bg-opacity-10 border-2 border-opacity-30 border-gray-200 " >

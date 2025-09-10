@@ -14,7 +14,7 @@ enum Env {
 let env: Env = Env.Test
 
 //const api_local = "https://tma-server-test.nexgami.com/api/v1/"
-const api_local = "http://10.0.0.247:8088/api/v1/"
+const api_local = "http://localhost:8088/api/v1/"
 const api_test = "https://dashfun-server-test.nexgami.com/api/v1/"
 const api_prod = "https://tma-server.fish-verse.com/api/v1/"
 
@@ -114,6 +114,22 @@ type AirdropVestingRequest = {
 		result: string,
 	} | null,
 }
+
+type TokenMarketInfo = {
+	id: string;
+	symbol: string;
+	name: string;
+	current_price: number;
+	high_24h: number;
+	low_24h: number;
+	market_cap: number;
+	total_volume: number;
+	price_change_percentage_1h_in_currency: number;
+	price_change_percentage_24h: number;
+	price_change_percentage_7d_in_currency: number;
+	last_updated: string;
+	brief: string;
+};
 
 const AccApi = {
 	apiUrl: (): string => {
@@ -1090,7 +1106,25 @@ const LeaderBoardApi = {
 		} else {
 			throw result.status
 		}
-	}
+	},
+
+	ndpTop: async (tgToken: string) => {
+		const api = LeaderBoardApi.apiUrl() + "ndp_top"
+		const result = await axios.get(api, {
+			headers: {
+				"Authorization": processToken(tgToken)
+			}
+		})
+		if (result.status == 200) {
+			if (result.data.code == 0) {
+				return result.data.data;
+			} else {
+				return result.data.msg
+			}
+		} else {
+			throw result.status
+		}
+	},
 }
 
 
@@ -1327,6 +1361,124 @@ const FishingVerseApi = {
 	}
 }
 
+const NolanDevApi = {
+
+	apiUrl: (): string => {
+		return dashFunApiUrl + "nolan/"
+	},
+
+	updateProfile: async (tgToken: string, profile: FishingVerseUserProfile, avatar: Blob): Promise<FishingVerseUserProfile> => {
+		const api = FishingVerseApi.apiUrl() + "profile/update"
+		const formData = new FormData();
+		formData.append("nickname", profile.nickname);
+		formData.append("avatar.png", avatar, "avatar.png");
+
+		console.log("updateProfile formData:", avatar);
+
+		const result = await axios.post(api, formData, {
+			headers: {
+				"Authorization": processToken(tgToken)
+			},
+		})
+		if (result.status == 200) {
+			if (result.data.code == 0) {
+				return result.data.data;
+			} else {
+				throw result.data.msg
+			}
+		} else {
+			throw result.status
+		}
+	},
+
+	checkinRemaining: async (tgToken: string): Promise<number> => {
+		const api = NolanDevApi.apiUrl() + "remaining"
+		const result = await axios.get(api, {
+			headers: {
+				"Authorization": processToken(tgToken)
+			},
+		})
+		if (result.status == 200) {
+			if (result.data.code == 0) {
+				return result.data.data;
+			} else {
+				throw result.data.msg
+			}
+		} else {
+			throw result.status
+		}
+	},
+	post: async (tgToken: string, post: string, location: string, fish: string): Promise<string> => {
+		const api = NolanDevApi.apiUrl() + "post"
+		const formData = new FormData();
+		formData.append("post", post);
+		formData.append("location", location);
+		formData.append("fish", fish);
+
+		const result = await axios.post(api, formData, {
+			headers: {
+				"Authorization": processToken(tgToken)
+			},
+		})
+		if (result.status == 200) {
+			if (result.data.code == 0) {
+				return result.data.data;
+			} else {
+				throw result.data.msg
+			}
+		} else {
+			throw result.status
+		}
+	},
+	getPosts: async (tgToken: string, limit = 50): Promise<FishingPostData[]> => {
+		const api = NolanDevApi.apiUrl() + "posts"
+		const result = await axios.get(api, {
+			headers: {
+				"Authorization": processToken(tgToken)
+			},
+			params: {
+				limit
+			}
+		})
+		if (result.status == 200) {
+			if (result.data.code == 0) {
+				return result.data.data;
+			} else {
+				throw result.data.msg
+			}
+		} else {
+			throw result.status
+		}
+	}
+}
+
+const MarketsApi = {
+	apiUrl: (): string => {
+		return dashFunApiUrl + "markets/"
+	},
+
+	get: async (tgToken: string, tokens: string[]): Promise<TokenMarketInfo[]> => {
+		const api = MarketsApi.apiUrl() + "get"
+		const result = await axios.get(api, {
+			headers: {
+				"Authorization": processToken(tgToken)
+			},
+			params: {
+				ids: tokens
+			}
+		})
+		if (result.status == 200) {
+			if (result.data.code == 0) {
+				return result.data.data;
+			} else {
+				throw result.data.msg
+			}
+		} else {
+			throw result.status
+		}
+	}
+}
+
 const tg_link = () => {
 	let botName = "DashFunBot";
 
@@ -1411,5 +1563,5 @@ const getEnv = () => {
 }
 
 
-export { AccountType, AccountStatus, AccApi, AirdropApi, GameApi, PaymentApi, RechargeApi, UserApi, TGLink, TaskApi, CoinApi, SpinWheelApi, LeaderBoardApi, FriendsApi, RechargeLink, FishingVerseApi, getEnv, Env }
-export type { PaymentData, RechargeOrder, DashFunAccount, AirdropData, AirdropVestingRequest }
+export { AccountType, AccountStatus, AccApi, AirdropApi, GameApi, PaymentApi, RechargeApi, UserApi, TGLink, TaskApi, CoinApi, SpinWheelApi, LeaderBoardApi, FriendsApi, RechargeLink, FishingVerseApi, NolanDevApi, MarketsApi, getEnv, Env }
+export type { PaymentData, RechargeOrder, DashFunAccount, AirdropData, AirdropVestingRequest, TokenMarketInfo }

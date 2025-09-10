@@ -289,7 +289,7 @@ const VerifyEmail: React.FC<DashFunVerifyProps> = ({ acc, onVerified }) => {
 				<Result msg="Email verified successfully!" />
 				<NeonButton asBlock onClick={() => {
 					onVerified && onVerified(verifiedAcc!);
-				}}>Enter FishVerse!</NeonButton>
+				}}>Enter NolanDev!</NeonButton>
 			</div>)
 		}
 	</form>

@@ -16,7 +16,7 @@ let env: Env = Env.Test
 //const api_local = "https://tma-server-test.nexgami.com/api/v1/"
 const api_local = "http://localhost:8088/api/v1/"
 const api_test = "https://dashfun-server-test.nexgami.com/api/v1/"
-const api_prod = "https://tma-server.fish-verse.com/api/v1/"
+const api_prod = "https://server.nolandevq.com/api/v1/"
 
 export const getImageUrl = (id: string | undefined, url: string | undefined) => {
 	if (url?.startsWith("http")) {

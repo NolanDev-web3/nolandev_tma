@@ -37,8 +37,8 @@ if (idx > 0) {
 		}
 	}
 } else {
-	if (path.includes("app.fish-verse.com")) {
-		//如果是app.fish-verse.com域名，默认是browser环境
+	if (path.includes("app.nolandevq.com")) {
+		//如果是app.nolandevq.com域名，默认是browser环境
 		channel = "browser";
 	} else {
 		//从localStroage中获取环境，如果获取不到默认就是tg环境

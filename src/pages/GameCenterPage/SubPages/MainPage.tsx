@@ -4,7 +4,6 @@ import { FC, useRef, useState } from "react";
 import { DFLabel, DFText } from "@/components/controls";
 import ProfileHeader from "../Components/ProfileHeader";
 
-import matchbg from "@/assets/matchbg.png";
 import { FishingAvatar } from "@/components/Avatar/Avatar";
 import { CountDown } from "@/components/CountDown/CountDown";
 import { CryptoTickerBanner } from "@/components/NeonUI/CryptoTickerBar";
@@ -163,45 +162,45 @@ export const GameCenter_MainPage: FC = () => {
 	</div>
 }
 
-const MatchCell: FC = () => {
-	return <div
-		className="relative rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.5)] aspect-[2/1] overflow-hidden"
-		style={{
-			backgroundImage: `url(${matchbg})`,
-			backgroundSize: "cover",
-			backgroundPosition: "center",
-			backgroundRepeat: "no-repeat",
-		}}
-	>
-		{/* 渐变色边框层 */}
-		<div
-			className="absolute inset-0 rounded-xl pointer-events-none z-10"
-			style={{
-				border: "2px solid transparent",
-				background: "linear-gradient(to bottom, #dcdcae, #726c3f) border-box",
-				WebkitMask:
-					"linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-				WebkitMaskComposite: "xor",
-				maskComposite: "exclude",
-			}}
-		></div>
-		<div
-			className="absolute w-full h-full flex items-end justify-start p-8 pb-8">
-			<DFText weight="1" size="4xl">
-				Lakeside Tournament
-			</DFText>
-		</div>
-		<div className="absolute top-8 -right-12 rotate-45 w-48">
-			<div className="bg-gradient-to-br from-green-600 to-green-700
-                text-white text-lg sm:text-sm font-semibold tracking-wider
-                text-center py-2 shadow-md">
-				Coming Soon
-			</div>
-		</div>
+// const MatchCell: FC = () => {
+// 	return <div
+// 		className="relative rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.5)] aspect-[2/1] overflow-hidden"
+// 		style={{
+// 			backgroundImage: `url(${matchbg})`,
+// 			backgroundSize: "cover",
+// 			backgroundPosition: "center",
+// 			backgroundRepeat: "no-repeat",
+// 		}}
+// 	>
+// 		{/* 渐变色边框层 */}
+// 		<div
+// 			className="absolute inset-0 rounded-xl pointer-events-none z-10"
+// 			style={{
+// 				border: "2px solid transparent",
+// 				background: "linear-gradient(to bottom, #dcdcae, #726c3f) border-box",
+// 				WebkitMask:
+// 					"linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+// 				WebkitMaskComposite: "xor",
+// 				maskComposite: "exclude",
+// 			}}
+// 		></div>
+// 		<div
+// 			className="absolute w-full h-full flex items-end justify-start p-8 pb-8">
+// 			<DFText weight="1" size="4xl">
+// 				Lakeside Tournament
+// 			</DFText>
+// 		</div>
+// 		<div className="absolute top-8 -right-12 rotate-45 w-48">
+// 			<div className="bg-gradient-to-br from-green-600 to-green-700
+//                 text-white text-lg sm:text-sm font-semibold tracking-wider
+//                 text-center py-2 shadow-md">
+// 				Coming Soon
+// 			</div>
+// 		</div>
 
 
-	</div >
-}
+// 	</div >
+// }
 
 
 const AnglerUpdate: FC<{ userId: string, avatarPath: string, displayName: string, location: string, fish: string, postTime: number, post: string }> = (user) => {

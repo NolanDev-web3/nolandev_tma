@@ -23,7 +23,7 @@ import MainPage from "@/pages/MainPage/MainPage";
 import { TestingPage } from "@/pages/TestingPage/TestingPage";
 import { ThemeParamsPage } from "@/pages/ThemeParamsPage/ThemeParamsPage.tsx";
 import { TONConnectPage } from "@/pages/TONConnectPage/TONConnectPage";
-import { Bitcoin, Cctv, Fish, Gift, ScanEye, ShoppingCart, Trophy, Users, Wallet2 } from "lucide-react";
+import { Bitcoin, Cctv, Gift, Trophy, Users, Wallet2 } from "lucide-react";
 import { createHashRouter, RouteObject, useNavigate } from "react-router-dom";
 
 export interface AppRoute {

@@ -8,7 +8,7 @@ import { Input, Spinner } from '@telegram-apps/telegram-ui';
 import { Binary, KeySquare, Mail, Repeat2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { DFAvatar } from '../Avatar/Avatar';
-import { DFButton, DFLabel, DFText } from '../controls';
+import { DFLabel, DFText } from '../controls';
 import useDashFunSafeArea from "../DashFun/DashFunSafeArea";
 import { NeonButton } from "../NeonUI/NeonUI";
 

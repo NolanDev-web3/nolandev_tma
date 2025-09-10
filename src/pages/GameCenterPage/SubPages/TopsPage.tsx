@@ -1,14 +1,14 @@
+import { DFUserAvatar } from "@/components/Avatar/Avatar"
+import { DFText } from "@/components/controls"
+import { NeonListItem } from "@/components/NeonUI/NeonUI"
+import Section from "@/components/Section/Section"
+import { toCurrency } from "@/constats"
+import xpIcon from "@/icons/dashfun-xp-icon.png"
 import { LeaderBoardApi } from "@/utils/DashFunApi"
 import { initData, useSignal } from "@telegram-apps/sdk-react"
 import { useEffectOnActive } from "keepalive-for-react"
 import { FC, useState } from "react"
 import ProfileHeader from "../Components/ProfileHeader"
-import Section from "@/components/Section/Section"
-import xpIcon from "@/icons/dashfun-xp-icon.png"
-import { toCurrency } from "@/constats"
-import { DFUserAvatar } from "@/components/Avatar/Avatar"
-import { DFCell, DFText } from "@/components/controls"
-import { NeonListItem } from "@/components/NeonUI/NeonUI"
 
 type TopListItem = {
 	id: string,

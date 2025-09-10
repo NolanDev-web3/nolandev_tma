@@ -1,12 +1,12 @@
 import AddLocation from "@/components/AddLocation/AddLocation";
-import { DFButton, DFText } from "@/components/controls";
+import { DFText } from "@/components/controls";
 import { useDashFunUser } from "@/components/DashFun/DashFunUser";
+import { NeonButton } from "@/components/NeonUI/NeonUI";
 import { NolanDevApi } from "@/utils/DashFunApi";
 import { initData, useSignal } from "@telegram-apps/sdk-react";
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileHeader from "../Components/ProfileHeader";
-import { NeonButton } from "@/components/NeonUI/NeonUI";
 
 export const FishingVerse_DailyCheckIn: FC = () => {
 	const user = useDashFunUser();

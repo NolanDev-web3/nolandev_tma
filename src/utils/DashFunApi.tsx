@@ -4,6 +4,7 @@ import axios from "axios"
 import { currentChannel, isInTelegram } from "./Utils"
 import { Base64 } from 'js-base64';
 import { FishingPostData, FishingVerseUserProfile, SpinWheelInfo } from "@/constats";
+import { ForecastPoint, ForecastResponse } from "@/pages/GameCenterPage/Components/CryptoForecastChart";
 
 enum Env {
 	Dev,
@@ -1473,6 +1474,21 @@ const MarketsApi = {
 			} else {
 				throw result.data.msg
 			}
+		} else {
+			throw result.status
+		}
+	},
+
+	forecast: async (tgToken: string, symbol: string): Promise<ForecastPoint[]> => {
+		const api = MarketsApi.apiUrl() + `forecast/${symbol}`
+		const result = await axios.get(api, {
+			headers: {
+				"Authorization": processToken(tgToken)
+			}
+		})
+		if (result.status == 200) {
+			const forecastResp = result.data as ForecastResponse;
+			return forecastResp.data;
 		} else {
 			throw result.status
 		}

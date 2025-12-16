@@ -1,5 +1,4 @@
 import { FC, MouseEventHandler, ReactNode } from "react";
-import woodBg from "@/assets/board-bg.png";
 
 export type DFCellProps = {
     children: ReactNode;
@@ -51,7 +50,6 @@ const DFCell: FC<DFCellProps> = (props: DFCellProps) => {
     if (mode == "wood") {
         bg = "   ";
         bgStyle = {
-            backgroundImage: `url(${woodBg})`,
             backgroundSize: "cover",
         }
     }
@@ -61,7 +59,7 @@ const DFCell: FC<DFCellProps> = (props: DFCellProps) => {
             "--from": colorScheme.bgFrom,
             "--to": colorScheme.bgTo,
             "--text-color": colorScheme.text,
-            ...bgStyle, 
+            ...bgStyle,
         } as React.CSSProperties}>
         <div className={"absolute inset-[1px] ring-[2px] ring-[var(--ring-color)] pointer-events-none rounded-xl"}
             style={{

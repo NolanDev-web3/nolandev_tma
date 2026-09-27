@@ -1,7 +1,5 @@
 import { Avatar, Text } from "@telegram-apps/telegram-ui";
 import { FC } from "react";
-import RecentGame from "./RecentGame";
-import FavoriteGames from "./FavoriteGames";
 import ConnectSocialMedia from "./ConnectSocialMedia";
 
 const ProfilePage: FC = () => {
@@ -14,8 +12,6 @@ const ProfilePage: FC = () => {
         />
         <Text weight="2">User Name</Text>
       </div>
-      <RecentGame />
-      <FavoriteGames />
       <ConnectSocialMedia />
     </div>
   );

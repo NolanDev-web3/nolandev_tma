@@ -19,7 +19,7 @@ const sizeMap = {
     "5xl": { fontSize: "48px", lineHeight: 1 },
 }
 
-const DFText: React.FC<DFTextProps> = ({ children, onClick, weight, size = "sm", color = "white", className }) => {
+const DFText: React.FC<DFTextProps> = ({ children, onClick, weight, size = "sm", color = "var(--nd-text)", className }) => {
 
     let fontWeight = 400;
     switch (weight) {

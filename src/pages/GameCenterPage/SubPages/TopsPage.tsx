@@ -1,87 +1,38 @@
-import { DFUserAvatar } from "@/components/Avatar/Avatar"
-import { DFText } from "@/components/controls"
-import { NeonListItem } from "@/components/NeonUI/NeonUI"
-import Section from "@/components/Section/Section"
-import { toCurrency } from "@/constats"
-import xpIcon from "@/icons/dashfun-xp-icon.png"
-import { LeaderBoardApi } from "@/utils/DashFunApi"
-import { initData, useSignal } from "@telegram-apps/sdk-react"
-import { useEffectOnActive } from "keepalive-for-react"
-import { FC, useState } from "react"
-import ProfileHeader from "../Components/ProfileHeader"
-
-type TopListItem = {
-	id: string,
-	rank: number,
-	score: number,
-	username: string,
-	display_name: string,
-	avatar: string,
-}
-
-export const GameCenter_TopPage: FC = () => {
-	const initDataRaw = useSignal(initData.raw)
-	const [_loading, setLoading] = useState(false);
-	const [xpTopList, setXpTopList] = useState<TopListItem[]>([]);
-
-	const getXpTop = async () => {
-		setLoading(true);
-		try {
-			const result = await LeaderBoardApi.ndpTop(initDataRaw as string);
-			setXpTopList(result);
-		} finally {
-			setLoading(false);
-		}
-	}
-
-	useEffectOnActive(() => {
-		getXpTop();
-	}, [])
-
-	const myRank = xpTopList.length > 0 ? xpTopList[xpTopList.length - 1] : null;
-
-	return <div id="GameCenter_TopPage" className="w-full h-full flex flex-col px-4 pt-4 items-center gap-2">
-		<ProfileHeader />
-		<DFText size="2xl" weight="2" className="py-4 w-full text-center">NP Leaderboard</DFText>
-		<LeaderboardList list={xpTopList.slice(0, -1)} />
-		{myRank && <div className="w-full py-2"><LeaderboardItem item={myRank} highlight={true} /></div>}
-	</div>
-}
-
-const LeaderboardList: FC<{ list: TopListItem[] }> = ({ list }) => {
-	return <div className="w-full flex flex-col gap-2 h-full overflow-y-auto">
-		<Section disableDivider>
-			{
-				list.map((item, i) => {
-					return <LeaderboardItem key={i} item={item} />
-				})
-			}
-			<div className="w-full h-3"></div>
-		</Section>
-	</div>
-}
-
-const LeaderboardItem: FC<{ item: TopListItem, highlight?: boolean }> = ({ item, highlight = false }) => {
-	return <div className="w-full px-2">
-		{/* <DFCell className="w-full" mode={highlight ? "highlight" : "normal"}
-			after={<div className="flex flex-row items-center gap-1">
-				<div className="w-16 text-right">{toCurrency(item.score, 0)}</div>
-				<img src={xpIcon} className="w-5 h-5" />
-			</div>}
-		> */}
-		<NeonListItem className="w-full" mode={highlight ? "highlight" : "plain"}
-			selected={highlight}
-			leftSlot={
-				<div className="flex flex-row items-center">
-					<DFText color="inherit" weight="3" className="w-10 pl-1">{item.rank == 0 ? "" : item.rank}</DFText>
-					<DFUserAvatar size={32} userId={item.id} avatarPath={item.avatar} displayName={item.display_name} />
-				</div>
-			}
-			rightHint={<div className="flex flex-row items-center gap-1">
-				<div className="w-16 text-right">{toCurrency(item.score, 0)}</div>
-				<img src={xpIcon} className="w-5 h-5" />
-			</div>}
-			text={item.display_name}
-		/>
-	</div >
+import { DFUserAvatar } from '@/components/Avatar/Avatar';
+import { EmptyState, LoadingState, PageHeading } from '@/components/Design/Primitives';
+import { LeaderBoardApi } from '@/utils/DashFunApi';
+import { initData, useSignal } from '@telegram-apps/sdk-react';
+import { useEffectOnActive } from 'keepalive-for-react';
+import { Trophy } from 'lucide-react';
+import { useState } from 'react';
+import ProfileHeader from '../Components/ProfileHeader';
+type TopListItem = { id: string; rank: number; score: number; username: string; display_name: string; avatar: string };
+export function GameCenter_TopPage() {
+  const token = useSignal(initData.raw);
+  const [loading, setLoading] = useState(true);
+  const [list, setList] = useState<TopListItem[]>([]);
+  const [error, setError] = useState(false);
+  const [retry, setRetry] = useState(0);
+  useEffectOnActive(() => {
+    let active = true;
+    setLoading(true); setError(false);
+    LeaderBoardApi.ndpTop(token as string).then(data => { if (active) setList(data); })
+      .catch(() => { if (active) setError(true); }).finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, [token, retry]);
+  // The existing API appends the current user's row after the ranked list.
+  const me = list.length > 0 ? list[list.length - 1] : null;
+  const leaders = list.slice(0, -1);
+  return <div id="GameCenter_TopPage" className="nd-page">
+    <ProfileHeader />
+    <PageHeading eyebrow="Leaderboard" title="Move up, together." description="The community making every point count." />
+    {loading ? <LoadingState>Loading rankings…</LoadingState> : error ? <div className="nd-error" role="alert">Rankings are unavailable.<button onClick={() => setRetry(value => value + 1)}>Retry</button></div> : <>
+      {me && <div className="nd-rank-summary"><Trophy size={28} strokeWidth={1.5} /><div><span>Your rank</span><strong>{me.rank > 0 ? `#${me.rank}` : 'Unranked'}</strong></div><div><span>Your points</span><strong>{me.score.toLocaleString('en-US')} <small className="text-xs">NP</small></strong></div></div>}
+      <section><div className="nd-section-heading"><h2 className="nd-section-title">Community leaders</h2><span>Nolan points</span></div>
+        {leaders.length === 0 ? <EmptyState title="The board is open" description="Community rankings will appear as members earn points." icon={<Trophy size={25} />} /> : <div className="nd-rank-list">{leaders.map(item => <div className={`nd-list-item ${item.id === me?.id ? 'nd-list-highlight' : ''}`} key={`${item.rank}-${item.id}`}>
+          <span className={`nd-rank-position ${item.rank <= 3 ? 'is-top' : ''}`}>{String(item.rank).padStart(2, '0')}</span><DFUserAvatar size={34} userId={item.id} avatarPath={item.avatar} displayName={item.display_name} /><div className="nd-list-content"><p>{item.display_name || item.username}{item.id === me?.id ? ' · You' : ''}</p></div><strong className="nd-rank-score">{item.score.toLocaleString('en-US')}<small>NP</small></strong>
+        </div>)}</div>}
+      </section>
+    </>}
+  </div>;
 }

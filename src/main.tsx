@@ -6,7 +6,6 @@ import { Root } from './components/Root.tsx';
 import './index.css';
 import { AccountType, Env, getEnv } from './utils/DashFunApi.tsx';
 import DBMgr from './components/DBMgr/DBMgr.ts';
-import GameSaveMgr from './components/GameSaveMgr/GameSaveMgr.ts';
 import "./mockEnv.ts";
 import makeMockTgEnv, { makeBrowserEnv } from './mockEnv.ts';
 import { currentChannel } from './utils/Utils.tsx';
@@ -72,7 +71,6 @@ init(retrieveLaunchParams().startParam === 'debug' || getEnv() == Env.Dev, retri
 initProxy();
 postEvent("web_app_expand");
 DBMgr.getInstance().openDB();
-GameSaveMgr.getInstance();
 
 createRoot(document.getElementById('root')!).render(
 	// <StrictMode>

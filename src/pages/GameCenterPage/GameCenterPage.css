@@ -34,10 +34,8 @@
     }
 }
 
-/* .cache-component.active {
-    animation: fadeIn 0.3s ease-in-out, slideIn 0.3s ease-in-out;
+@media (min-width: 768px) {
+  #content-wrapper {
+    padding-bottom: 0px !important;
+  }
 }
-
-.cache-component.inactive {
-    animation: fadeOut 0.3s ease-in-out, slideOut 0.3s ease-in-out;
-} */

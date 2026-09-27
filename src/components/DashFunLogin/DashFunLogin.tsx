@@ -1,13 +1,12 @@
 import aniSuccess from "@/assets/animation/successful.json";
-import dashfunIcon from "@/icons/nolan-icon-512.png";
 import { makeBrowserEnv, } from "@/mockEnv";
 import { AccApi, AccountStatus, AccountType, DashFunAccount, getEnv } from "@/utils/DashFunApi";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { initData } from "@telegram-apps/sdk-react";
-import { Input, Spinner } from '@telegram-apps/telegram-ui';
-import { Binary, KeySquare, Mail, Repeat2 } from 'lucide-react';
+import { Spinner } from '@telegram-apps/telegram-ui';
+import { FormInput as Input } from '@/components/Design/Primitives';
+import { Binary, KeySquare, Mail, Repeat2, Orbit } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { DFAvatar } from '../Avatar/Avatar';
 import { DFLabel, DFText } from '../controls';
 import useDashFunSafeArea from "../DashFun/DashFunSafeArea";
 import { NeonButton } from "../NeonUI/NeonUI";
@@ -60,33 +59,12 @@ const processError = (e: any): string => {
 type UiMode = -1 | 0 | 1 | 2 | 3; //-1=loading 0=signin, 1=signup, 2=reset password, 3=verify email
 
 const Header: React.FC<{ mode: UiMode }> = ({ mode }) => {
-	let title = "";
+  const title = mode === 1 ? 'Start something new.' : mode === 2 ? 'Let’s get you back.' : mode === 3 ? 'Check your inbox.' : 'Welcome back.';
+  const description = mode === 1 ? 'Your next chapter in the Nolan community.' : mode === 2 ? 'Reset your password to return to Nolan.' : mode === 3 ? 'Verify your email to finish setting up your account.' : 'Your markets, your community, your next move.';
+  return <header className="nd-auth-header"><div className="nd-auth-brand"><span className="nd-auth-mark"><Orbit size={23} /></span>NOLAN</div><span className="nd-eyebrow">{mode === 1 ? 'CREATE AN ACCOUNT' : mode === 2 ? 'ACCOUNT RECOVERY' : mode === 3 ? 'EMAIL VERIFICATION' : 'YOUR DAILY EDGE'}</span><h1>{title}</h1><p>{description}</p></header>;
+};
 
-	switch (mode) {
-		case 0:
-			title = "";
-			break;
-		case 1:
-			title = "";
-			break;
-		case 2:
-			title = "Reset your password";
-			break;
-		case 3:
-			title = "Verify your email";
-			break;
-		default:
-			title = "";
-	}
-
-	return <div className='w-full flex flex-col py-4 items-center gap-2'>
-		<DFAvatar src={dashfunIcon} size={128} />
-		<DFText weight='3' size="3xl">NolanDev</DFText>
-		<DFText weight='1' size="xl">{title}</DFText>
-	</div>
-}
-
-const DashFunLogin: React.FC = () => {
+const DashFunLogin: React.FC<{ restoreSession?: boolean }> = ({ restoreSession = true }) => {
 	const [mode, setMode] = useState<UiMode>(-1);//0=signin, 1=signup, 2=reset password, 3=verify email, 4=setup profile
 	const [currAcc, setCurrAcc] = useState<DashFunAccount | null>(null);
 
@@ -94,7 +72,7 @@ const DashFunLogin: React.FC = () => {
 
 	//① 先从localStorage中获取当前token并验证，如果验证成功，直接使用token登陆
 	useEffect(() => {
-		resotreAccount().then(() => {
+		(restoreSession ? resotreAccount() : Promise.resolve(false)).then(() => {
 		}).finally(() => {
 			setMode(0);
 		});
@@ -109,9 +87,8 @@ const DashFunLogin: React.FC = () => {
 
 
 	//② 如果没有token或者token验证失败，显示登陆页面
-	return <div className="max-w-screen-sm sm:aligen-center sm:mx-auto h-full">
-		<div id="DashFunLogin" className={"w-full h-full flex flex-col bg-gradient-to-b from-[#004275] to-[#00254E] items-center py-4"} style={{ paddingTop: safeArea.top + "px", paddingBottom: safeArea.bottom + "px" }}>
-			<div className="absolute max-w-screen-sm sm:aligen-center sm:mx-auto top-[-425px] left-1/2 -translate-x-1/2 w-[100%] h-[650px] bg-[radial-gradient(circle,rgba(0,200,255,0.3)_0%,transparent_70%)] pointer-events-none z-0"></div>
+	return <div className="nd-auth-shell">
+		<div id="DashFunLogin" className="nd-auth" style={{ paddingTop: safeArea.top + "px", paddingBottom: safeArea.bottom + "px" }}>
 			<Header mode={mode} />
 			{(
 				mode == -1 && <div className="w-full flex flex-col items-center justify-center p-2">
@@ -176,6 +153,7 @@ const DashFunLogin: React.FC = () => {
 					}}
 				/>)
 			}
+			<p className="nd-auth-footer">One place for market insights, community, and early opportunities.</p>
 		</div>
 	</div>
 };
@@ -242,7 +220,7 @@ const VerifyEmail: React.FC<DashFunVerifyProps> = ({ acc, onVerified }) => {
 	}
 
 
-	return <form className='w-full px-8 sm:mx-auto max-w-[400px] flex flex-col gap-4' onSubmit={handleSubmit}>
+	return <form className='nd-auth-form flex flex-col gap-4' onSubmit={handleSubmit}>
 		<div className="w-full">
 			<Input
 				status={undefined}
@@ -255,7 +233,7 @@ const VerifyEmail: React.FC<DashFunVerifyProps> = ({ acc, onVerified }) => {
 			(codeSent && <div className="w-full">
 				<Input
 					status={error == '' ? undefined : 'error'}
-					id="verify"
+					id="verify" autoComplete="one-time-code"
 					placeholder="enter your verification code"
 					before={<Binary />}
 					onChange={(e) => {
@@ -347,13 +325,13 @@ const Register: React.FC<DashFunRegisterProps> = ({ onRegsiter, onAction }) => {
 		register()
 	};
 
-	return <div className='w-full px-8 sm:mx-auto max-w-[400px]'>
+	return <div className='nd-auth-form'>
 		<form onSubmit={handleSubmit} className='flex flex-col items-center gap-4'>
 			<div className='w-full'>
 				<Input
 					status={errorCtls.email ? 'error' : undefined}
 					type='email'
-					id="username"
+					id="username" autoComplete="email"
 					placeholder="Email Address"
 					before={<Mail />}
 					onChange={(e) => {
@@ -366,7 +344,7 @@ const Register: React.FC<DashFunRegisterProps> = ({ onRegsiter, onAction }) => {
 				<Input
 					status={errorCtls.password ? 'error' : undefined}
 					type='password'
-					id="password"
+					id="password" autoComplete="current-password"
 					placeholder="Password"
 					before={<KeySquare />}
 					onChange={(e) => {
@@ -379,7 +357,7 @@ const Register: React.FC<DashFunRegisterProps> = ({ onRegsiter, onAction }) => {
 				<Input
 					status={errorCtls.repeat ? 'error' : undefined}
 					type='password'
-					id="repeat"
+					id="repeat" autoComplete="new-password"
 					placeholder="Repeat Password"
 					before={<Repeat2 />}
 					onChange={(e) => {
@@ -395,11 +373,11 @@ const Register: React.FC<DashFunRegisterProps> = ({ onRegsiter, onAction }) => {
 				</div>
 			</div>
 			<div className="flex w-full">
-				<div className="flex-1 underline text-blue-400 cursor-pointer" onClick={() => {
+				<button type="button" className="flex-1 nd-auth-link" onClick={() => {
 					onAction && onAction('signin');
 				}}>
 					Sign In
-				</div>
+				</button>
 			</div>
 		</form>
 	</div>
@@ -469,13 +447,13 @@ const Login: React.FC<DashFunLoginProps> = ({ onLogin, onAction }) => {
 
 	};
 
-	return <div className='w-full px-8 sm:mx-auto max-w-[400px]'>
+	return <div className='nd-auth-form'>
 		<form onSubmit={handleSubmit} className='flex flex-col items-center gap-4'>
 			<div className='w-full'>
 				<Input
 					status={errorCtls.email ? 'error' : undefined}
 					type='email'
-					id="username"
+					id="username" autoComplete="email"
 					placeholder="Email Address"
 					before={<Mail />}
 					onChange={(e) => {
@@ -488,7 +466,7 @@ const Login: React.FC<DashFunLoginProps> = ({ onLogin, onAction }) => {
 				<Input
 					status={errorCtls.password ? 'error' : undefined}
 					type='password'
-					id="password"
+					id="password" autoComplete="current-password"
 					placeholder="Password"
 					before={<KeySquare />}
 					onChange={(e) => {
@@ -504,16 +482,16 @@ const Login: React.FC<DashFunLoginProps> = ({ onLogin, onAction }) => {
 				</div>
 			</div>
 			<div className="flex w-full">
-				<div className="flex-1 underline text-blue-400 cursor-pointer" onClick={() => {
+				<button type="button" className="flex-1 nd-auth-link" onClick={() => {
 					onAction && onAction('signup');
 				}}>
 					Sign Up
-				</div>
+				</button>
 				<div className="flex-1 text-right flex items-center">
-					<div className="flex-1 underline text-blue-400 cursor-pointer"
+					<button type="button" className="flex-1 nd-auth-link"
 						onClick={() => {
 							onAction && onAction('resetpassword');
-						}}>Reset Password</div>
+						}}>Reset Password</button>
 				</div>
 			</div>
 
@@ -646,12 +624,12 @@ const ResetPassword: React.FC<DashFunResetProps> = ({ onAction }) => {
 		}
 	}
 
-	return <div className='w-full px-8 sm:mx-auto max-w-[400px]'>
+	return <div className='nd-auth-form'>
 		<form onSubmit={handleSubmit} className='flex flex-col items-center gap-4'>
 			<div className='w-full'>
 				<Input
 					type='email'
-					id="username"
+					id="username" autoComplete="email"
 					readOnly={loading || mode != 0}
 					status={errorCtls.email ? 'error' : undefined}
 					before={<Mail />}
@@ -670,7 +648,7 @@ const ResetPassword: React.FC<DashFunResetProps> = ({ onAction }) => {
 						<div className='w-full'>
 							<Input
 								status={errorCtls.code ? 'error' : undefined}
-								id="verify"
+								id="verify" autoComplete="one-time-code"
 								placeholder="enter your verification code"
 								before={<Binary />}
 								onChange={(e) => {
@@ -683,7 +661,7 @@ const ResetPassword: React.FC<DashFunResetProps> = ({ onAction }) => {
 							<Input
 								status={errorCtls.password ? 'error' : undefined}
 								type='password'
-								id="password"
+								id="password" autoComplete="current-password"
 								placeholder="Password"
 								before={<KeySquare />}
 								onChange={(e) => {
@@ -696,7 +674,7 @@ const ResetPassword: React.FC<DashFunResetProps> = ({ onAction }) => {
 							<Input
 								status={errorCtls.repeat ? 'error' : undefined}
 								type='password'
-								id="repeat"
+								id="repeat" autoComplete="new-password"
 								placeholder="Repeat Password"
 								before={<Repeat2 />}
 								onChange={(e) => {
@@ -720,11 +698,11 @@ const ResetPassword: React.FC<DashFunResetProps> = ({ onAction }) => {
 				</div>
 			</div>
 			<div className="flex w-full">
-				<div className="flex-1 underline text-blue-400 cursor-pointer" onClick={() => {
+				<button type="button" className="flex-1 nd-auth-link" onClick={() => {
 					onAction && onAction('signin');
 				}}>
 					Sign In
-				</div>
+				</button>
 			</div>
 		</form>
 	</div>

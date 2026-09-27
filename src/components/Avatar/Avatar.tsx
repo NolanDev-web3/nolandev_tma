@@ -22,18 +22,18 @@ export const DFProfileAvatar: FC<{ size: number, children?: React.ReactNode, onC
 		avatarUrl = getAvatarUrl(user?.id || "", avatarVersion);
 	}
 
-	return <div className="relative flex items-center justify-center inset-0 rounded-full bg-gradient-to-br from-[#00c2ff] to-[#0042ff] p-[3px]  shadow-cyan-400/30"
+	return <div className="relative flex items-center justify-center inset-0 rounded-full nd-avatar-ring p-[3px]"
 		style={{ minWidth: size, width: size, height: size }} onClick={onClick}>
 		{/* 内圈背景（可选）+ 头像图 */}
 		<div
-			className="flex justify-center items-center absolute rounded-full bg-gradient-to-br from-blue-800 to-blue-900 "
+			className="flex justify-center items-center absolute rounded-full nd-avatar-inner "
 			style={{ minWidth: innerSize, width: innerSize, height: innerSize }} >
 			{
 				avatarUrl != "" ? <img src={avatarUrl} className="block object-cover absolute " style={{
 					borderRadius: "inherit",
 					width: innerSize, height: innerSize
 				}} /> :
-					avatar == "" ? <ReactAvatar name={user?.nickname} round={true} size={(innerSize).toString()} textSizeRatio={2.5} />
+					avatar == "" ? <ReactAvatar color="#2b4237" fgColor="#bbf5d1" name={user?.nickname} round={true} size={(innerSize).toString()} textSizeRatio={2.5} />
 						: <img src={avatar} className="block object-cover absolute " style={{
 							borderRadius: "inherit",
 							width: innerSize, height: innerSize
@@ -52,7 +52,7 @@ export const DFProfileAvatar: FC<{ size: number, children?: React.ReactNode, onC
 // 		<div
 // 			className="flex justify-center items-center absolute rounded-full"
 // 			style={{ minWidth: size, width: size, height: size }} >
-// 			{avatar == "" ? <ReactAvatar name={user?.displayName} round={true} size={(size).toString()} textSizeRatio={2.5} />
+// 			{avatar == "" ? <ReactAvatar color="#2b4237" fgColor="#bbf5d1" name={user?.displayName} round={true} size={(size).toString()} textSizeRatio={2.5} />
 // 				: <img src={avatar} className="block object-cover absolute " style={{
 // 					borderRadius: "inherit",
 // 					width: size - 6, height: size - 6
@@ -66,7 +66,7 @@ export const DFProfileAvatar: FC<{ size: number, children?: React.ReactNode, onC
 // }
 
 export const FishingAvatar: FC<{ size: number, userId: string, displayName: string, onClick?: () => void }> = ({ size, userId, displayName, onClick }) => {
-	const [imgExisted, setImgExisted] = useState(true);
+	const [imgExisted, setImgExisted] = useState(Boolean(userId));
 
 	const avatarUrl = getAvatarUrl(userId, "1");
 
@@ -77,7 +77,7 @@ export const FishingAvatar: FC<{ size: number, userId: string, displayName: stri
 			width: size, height: size
 		}} onError={() => {
 			setImgExisted(false);
-		}} /> : <ReactAvatar name={displayName} round={true} size={size.toString()} textSizeRatio={2} />
+		}} /> : <ReactAvatar color="#2b4237" fgColor="#bbf5d1" name={displayName} round={true} size={size.toString()} textSizeRatio={2} />
 		}
 	</div>
 }
@@ -106,7 +106,7 @@ export const DFUserAvatar: FC<{ size: number, userId: string, avatarPath: string
 
 	return <div className=" flex justify-center items-center rounded-full" onClick={onClick} style={{ minWidth: size, width: size, height: size, backgroundColor: "var(--tgui--tertiary_bg_color)", boxShadow: "0 0 0 1px var(--tgui--outline)" }} >
 		{isLoading ? <Spinner size="s" /> :
-			avatar == "" ? <ReactAvatar name={displayName} round={true} size={size.toString()} textSizeRatio={2} /> : <img src={avatar} className="block object-cover   " style={{
+			avatar == "" ? <ReactAvatar color="#2b4237" fgColor="#bbf5d1" name={displayName} round={true} size={size.toString()} textSizeRatio={2} /> : <img src={avatar} className="block object-cover   " style={{
 				borderRadius: "inherit",
 				width: size, height: size
 			}} />}
@@ -116,7 +116,7 @@ export const DFUserAvatar: FC<{ size: number, userId: string, avatarPath: string
 
 export const DFImageAvatar: FC<{ size: number, image: string, nickname: string, onClick?: () => void }> = ({ size, image, nickname, onClick }) => {
 	return <div className=" flex justify-center items-center rounded-full" onClick={onClick} style={{ minWidth: size, width: size, height: size, backgroundColor: "var(--tgui--tertiary_bg_color)", boxShadow: "0 0 0 1px var(--tgui--outline)" }} >
-		{image == "" ? <ReactAvatar name={nickname} round={true} size={size.toString()} textSizeRatio={2} /> : <img src={image} className="block object-cover   " style={{
+		{image == "" ? <ReactAvatar color="#2b4237" fgColor="#bbf5d1" name={nickname} round={true} size={size.toString()} textSizeRatio={2} /> : <img src={image} className="block object-cover   " style={{
 			borderRadius: "inherit",
 			width: size, height: size
 		}} />}

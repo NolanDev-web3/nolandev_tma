@@ -2,15 +2,10 @@ import { GameData } from "./components/DashFunData/GameData";
 import dashfunIcon from "./icons/dashfun-icon.svg";
 import dashfunPointIcon from "./icons/dashfun-xp-icon.png";
 import dashfunCoinIcon from "./icons/dashfun-coin-icon.png";
-import dashfunDiamond from "./icons/dashfun-diamond4.png";
-import fpIcon from "./icons/fp-icon.png";
 import npIcon from "./icons/np-icon.png";
 import leaderboardIcon from "./icons/leaderboard.png";
-import dashfunTicket from "./icons/dashfun-ticket.png";
-import starIcon from "./icons/icon-tgstar.png";
 import iconX from "./icons/icon-x.png";
 import iconTg from "./icons/icon-telegram.png";
-import walletIcon from "./icons/icon-wallet.png";
 
 import dialyLoginIcon from "./icons/icon-calendar.png";
 import { getImageUrl } from "./utils/DashFunApi";
@@ -19,8 +14,6 @@ import { getImageUrl } from "./utils/DashFunApi";
 export const DashFunCoins = {
 	DashFunXP: "DashFunPoint",
 	DashFunCoin: "DashFunCoin",
-	DashFunDiamond: "DashFunDiamond",
-	DashFunTicket: "DashFunTicket",
 }
 
 //Recharge
@@ -62,8 +55,6 @@ export const GetTaskIcon = (task: Task): string => {
 			return dialyLoginIcon;
 		case TaskCondition.LeaderboardRank:
 			return leaderboardIcon;
-		case TaskCondition.SpendTGStar:
-			return starIcon;
 		case TaskCondition.FollowX:
 			return iconX;
 		case TaskCondition.JoinTGChannel:
@@ -72,11 +63,6 @@ export const GetTaskIcon = (task: Task): string => {
 			return getImageUrl(task.game_id, "icon.png");
 		case TaskCondition.PlaySpecificGame:
 			return getImageUrl(task.require.condition, "icon.png");
-		case TaskCondition.SpendDiamond:
-		case TaskCondition.Recharge:
-			return dashfunDiamond;
-		case TaskCondition.BindWallet:
-			return walletIcon;
 		default:
 			return dashfunIcon;
 	}
@@ -197,12 +183,6 @@ export const getCoinIcon = (coinName: "DashFunCoin" | "DashFunPoint" | "DashFunD
 			return dashfunCoinIcon;
 		case "DashFunPoint":
 			return dashfunPointIcon;
-		case "DashFunDiamond":
-			return dashfunDiamond;
-		case "DashFunTicket":
-			return dashfunTicket;
-		case "FishingPoint":
-			return fpIcon;
 		case "NolanDevPoint":
 			return npIcon;
 		default:

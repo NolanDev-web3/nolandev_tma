@@ -1,12 +1,10 @@
-import dashfunIcon from "@/icons/nolan-icon-512.png";
 import AvatarUpload from "@/pages/GameCenterPage/Components/AvatarUploader";
 import { FishingVerseApi } from "@/utils/DashFunApi";
 import { initData, useSignal } from "@telegram-apps/sdk-react";
-import { Input } from "@telegram-apps/telegram-ui";
-import { User } from "lucide-react";
+import { FormInput as Input } from "@/components/Design/Primitives";
+import { User, Orbit } from "lucide-react";
 import { FC, useState } from "react";
-import { DFAvatar } from "../Avatar/Avatar";
-import { DFLabel, DFText } from "../controls";
+import { DFLabel } from "../controls";
 import useDashFunSafeArea from "../DashFun/DashFunSafeArea";
 import { UserProfileUpdatedEvent } from "../Event/Events";
 import { NeonButton } from "../NeonUI/NeonUI";
@@ -65,18 +63,13 @@ const SetupProfile: FC = () => {
 
 	}
 
-	return <div className="max-w-screen-sm sm:aligen-center sm:mx-auto h-full">
-		<div id="DashFunLogin" className={"w-full h-full flex flex-col bg-gradient-to-b from-[#004275] to-[#00254E] items-center py-4"} style={{ paddingTop: safeArea.top + "px", paddingBottom: safeArea.bottom + "px" }}>
-			<div className="absolute max-w-screen-sm sm:aligen-center sm:mx-auto top-[-425px] left-1/2 -translate-x-1/2 w-[100%] h-[650px] bg-[radial-gradient(circle,rgba(0,200,255,0.3)_0%,transparent_70%)] pointer-events-none z-0"></div>
-			<div className='w-full flex flex-col py-4 items-center gap-2'>
-				<DFAvatar src={dashfunIcon} size={128} />
-				<DFText weight='3' size="3xl">NolanDev</DFText>
-				<DFText weight='1' size="xl">Please setup your profile</DFText>
-			</div>
-			<AvatarUpload size={128} onAvatarSelected={(avatar) => {
+	return <div className="nd-auth-shell">
+		<div id="DashFunLogin" className="nd-auth" style={{ paddingTop: safeArea.top + "px", paddingBottom: safeArea.bottom + "px" }}>
+            <header className="nd-auth-header"><div className="nd-auth-brand"><span className="nd-auth-mark"><Orbit size={23} /></span>NOLAN</div><span className="nd-eyebrow">ONE LAST THING</span><h1>Make yourself at home.</h1><p>Choose a photo and the name your community will see.</p></header>
+			<AvatarUpload size={88} onAvatarSelected={(avatar) => {
 				setAvatar(avatar)
 			}} />
-			<form className='w-full px-8 sm:mx-auto max-w-[400px] flex flex-col gap-4 pt-4' onSubmit={handleSubmit}>
+			<form className='nd-auth-form flex flex-col gap-4 pt-4' onSubmit={handleSubmit}>
 				<div className="w-full">
 					<Input
 						status={errorCtls.nickname ? "error" : undefined}

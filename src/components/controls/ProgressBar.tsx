@@ -8,8 +8,8 @@ interface DFProgressBarProps {
 const DFProgressBar: React.FC<DFProgressBarProps> = ({
 	size = 56,
 	progress,
-	backgroundColor = "#00355B40",
-	progressColor = "#FBD43A",
+	backgroundColor = "var(--nd-border)",
+	progressColor = "var(--nd-accent)",
 }) => {
 	if (progress > 1) progress = 1;
 	if (progress < 0) progress = 0;

@@ -6,6 +6,8 @@ import { FC, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useOutlet } from "react-router-dom";
 import { ContentWrapper } from "../ContentWrapper";
 import { GameCenterTab, GameCenterTabRef } from "./Components/GameCenterTab";
+import { DesktopSidebar } from "@/components/DesktopLayout/DesktopSidebar";
+import { DesktopTopBar } from "@/components/DesktopLayout/DesktopTopBar";
 import "./GameCenterPage.css";
 
 
@@ -37,9 +39,7 @@ const pageSetting: PageSettings = {
 	"/game-center/friends": {
 		doNotScrollPage: true,
 	},
-	"/game-center/tops": {
-		doNotScrollPage: true,
-	},
+	"/game-center/tops": {},
 	"/game-center/recharge": {
 		hideTabBar: true,
 	},
@@ -105,7 +105,7 @@ export const GameCenterPage: FC = () => {
 	useEffect(() => {
 		const h = tabRef.current?.getHeight() || 0;
 		setTabOffset(h - safeArea.bottom);
-	}, [tabRef.current])
+	}, [hideTabBar, safeArea.bottom])
 
 	useEffect(() => {
 		if (location.pathname == "/game-center/" || location.pathname == "/game-center") {
@@ -121,7 +121,9 @@ export const GameCenterPage: FC = () => {
 				backButton.hide();
 			} else {
 				backButton.show();
-				backButton.onClick(() => {
+				return backButton.onClick(() => {
+					// Allow an open sheet to consume Telegram back before changing routes.
+					if (!window.dispatchEvent(new Event("nolandev:back", { cancelable: true }))) return;
 					if (currentRoute.back == null || currentRoute.back == "back") {
 						navigate(-1);
 					} else {
@@ -132,21 +134,34 @@ export const GameCenterPage: FC = () => {
 		}
 	}, [location.pathname])
 
-	return <div className="max-w-screen-sm sm:aligen-center sm:mx-auto h-full">
-		<div id="GameCenterPage" className={"w-full h-full flex flex-col bg-gradient-to-b from-[#004275] to-[#00254E] " + (customPageBg[location.pathname] || "")}>
-			<div className="absolute max-w-screen-sm sm:aligen-center sm:mx-auto top-[-425px] left-1/2 -translate-x-1/2 w-[100%] h-[650px] bg-[radial-gradient(circle,rgba(0,200,255,0.3)_0%,transparent_70%)] pointer-events-none z-0"></div>
-			{
-				!keepalive && outlet
-			}
-			<KeepAlive transition={false} aliveRef={aliveRef} activeCacheKey={currentCacheKey} max={18}>
-				{keepalive && !scroll && outlet}
-				<MemoScrollTopWrapper>
-					{keepalive && scroll && outlet}
-				</MemoScrollTopWrapper>
-			</KeepAlive>
-			{(!hideTabBar && <GameCenterTab ref={tabRef} />)}
+	return (
+		<div className="w-full h-full flex flex-row overflow-hidden bg-[#0c1521]">
+			{/* Desktop Left Sidebar (Only visible on md+) */}
+			<DesktopSidebar />
+
+			{/* Main Column */}
+			<div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden relative">
+				{/* Desktop Top Header (Only visible on md+) */}
+				<DesktopTopBar />
+
+				{/* Page Container */}
+				<div id="GameCenterPage" className={"nd-shell flex-1 w-full h-full flex flex-col overflow-hidden " + (customPageBg[location.pathname] || "")}>
+					<div className="w-full h-full max-w-screen-sm md:max-w-7xl mx-auto flex flex-col flex-1 overflow-hidden">
+						{
+							!keepalive && outlet
+						}
+						<KeepAlive transition={false} aliveRef={aliveRef} activeCacheKey={currentCacheKey} max={18}>
+							{keepalive && !scroll && outlet}
+							<MemoScrollTopWrapper>
+								{keepalive && scroll && outlet}
+							</MemoScrollTopWrapper>
+						</KeepAlive>
+					</div>
+					{(!hideTabBar && <GameCenterTab ref={tabRef} />)}
+				</div>
+			</div>
 		</div>
-	</div>
+	);
 }
 
 

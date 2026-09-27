@@ -10,8 +10,8 @@ const DFProgressCircle: React.FC<DFProgressCircleProps> = ({
     size = 56,
     strokeWidth = 4,
     progress,
-    backgroundColor = "#00355B",
-    progressColor = "#FBD43A",
+    backgroundColor = "var(--nd-border)",
+    progressColor = "var(--nd-accent)",
 }) => {
     const center = size / 2;
     const radius = center - strokeWidth;

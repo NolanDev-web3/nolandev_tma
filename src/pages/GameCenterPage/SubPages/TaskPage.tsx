@@ -1,23 +1,6 @@
-import { DFText } from "@/components/controls";
-import { GameDashFun } from "@/constats";
-import { useEffectOnActive } from "keepalive-for-react";
-import { FC, useState } from "react";
-import ProfileHeader from "../Components/ProfileHeader";
-
-export const GameCenter_TaskPage: FC = () => {
-	//const { gamelist, updateGameList, loading } = useGameCenterData();
-	const [_game, setGame] = useState(GameDashFun());
-
-
-	useEffectOnActive(() => {
-		//就是为了刷新用
-		setGame(GameDashFun());
-	}, [])
-
-	return <div id="GameCenter_TaskPage" className="w-full flex flex-col py-4">
-		<div className="w-full flex flex-col px-4">
-			<ProfileHeader />
-			<DFText weight="2" size="2xl" className="py-4 w-full text-center">Tasks</DFText>
-		</div>
-	</div >
+import { Gift } from 'lucide-react';
+import { EmptyState, PageHeading } from '@/components/Design/Primitives';
+import ProfileHeader from '../Components/ProfileHeader';
+export function GameCenter_TaskPage() {
+  return <div id="GameCenter_TaskPage" className="nd-page"><ProfileHeader /><PageHeading eyebrow="Tasks" title="Small steps. More possibilities." description="Your next community challenge starts here." /><EmptyState icon={<Gift size={26} />} title="New tasks are on the way" description="Check back for opportunities to take part in the Nolan community." /></div>;
 }

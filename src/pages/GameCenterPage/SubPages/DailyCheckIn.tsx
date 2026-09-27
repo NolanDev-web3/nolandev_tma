@@ -1,81 +1,32 @@
-import AddLocation from "@/components/AddLocation/AddLocation";
-import { DFText } from "@/components/controls";
-import { useDashFunUser } from "@/components/DashFun/DashFunUser";
-import { NeonButton } from "@/components/NeonUI/NeonUI";
-import { NolanDevApi } from "@/utils/DashFunApi";
-import { initData, useSignal } from "@telegram-apps/sdk-react";
-import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ProfileHeader from "../Components/ProfileHeader";
-
-export const FishingVerse_DailyCheckIn: FC = () => {
-	const user = useDashFunUser();
-	const initDataRaw = useSignal(initData.raw);
-	const nav = useNavigate();
-	const [post, setPost] = useState("");
-	const [location, setLocation] = useState<string>("");
-	const [fish, setFish] = useState<string>("");
-	const [posting, setPosting] = useState(false);
-
-	const sendPost = async () => {
-		if (post.trim() === "") {
-			return;
-		}
-		setPosting(true);
-		try {
-			await NolanDevApi.post(initDataRaw as string, post, location, fish);
-			setPost("");
-			setLocation("");
-			setFish("");
-			nav("/game-center/main");
-		} catch (e) {
-			console.error("Failed to create post:", e);
-		} finally {
-			setPosting(false);
-		}
-	}
-
-	return <div id="GameCenter_Profile" className="w-full h-full flex flex-col items-center">
-		<div className="w-full flex flex-col items-center gap-4 px-4 pt-4 pb-1">
-			<ProfileHeader />
-			<div className="w-full flex items-center">
-				<div className="w-[100px]">
-					<DFText weight="1" size="lg" color="#999999" onClick={() => {
-						setPost("");
-						setLocation("");
-						setFish("");
-						nav("/game-center/main");
-					}}>
-						Cancel
-					</DFText>
-				</div>
-				<div className="flex flex-col items-center flex-1">
-					<DFText weight="2" size="xl">Daily Alpha</DFText>
-					<DFText weight="1" size="m">@{user?.nickname}</DFText>
-				</div>
-				<div className="w-[100px] flex justify-end">
-					<NeonButton disabled={post.trim() === "" || posting} loading={posting}
-						onClick={() => sendPost()}>
-						Post
-					</NeonButton>
-				</div>
-			</div>
-		</div>
-		<div className="w-full h-full flex flex-col items-center gap-2 min-h-[150px] max-h-[calc(30vh)] ">
-			<textarea
-				className="w-full h-full p-2 border rounded resize-none text-black"
-				placeholder="what's on your mind?"
-				value={post}
-				onChange={(e) => setPost(e.target.value)}
-			/>
-		</div>
-		<div className="w-full flex  items-start gap-2 mt-4 justify-between px-2">
-			<AddLocation onLocationChanged={l => {
-				setLocation(l);
-			}} />
-			{/* <FishSelect onChange={(f) => {
-				setFish(f);
-			}} /> */}
-		</div>
-	</div>;
+import AddLocation from '@/components/AddLocation/AddLocation';
+import { useDashFunUser } from '@/components/DashFun/DashFunUser';
+import { BackLink, PageHeading } from '@/components/Design/Primitives';
+import { NeonButton } from '@/components/NeonUI/NeonUI';
+import { NolanDevApi } from '@/utils/DashFunApi';
+import { initData, useSignal } from '@telegram-apps/sdk-react';
+import { ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+export function FishingVerse_DailyCheckIn() {
+  const user = useDashFunUser();
+  const token = useSignal(initData.raw);
+  const navigate = useNavigate();
+  const [post, setPost] = useState('');
+  const [location, setLocation] = useState('');
+  const [posting, setPosting] = useState(false);
+  const [error, setError] = useState('');
+  const sendPost = async () => {
+    if (!post.trim() || posting) return;
+    setPosting(true); setError('');
+    try { await NolanDevApi.post(token as string, post, location, ''); setPost(''); setLocation(''); navigate('/game-center/main'); }
+    catch { setError('Your post couldn’t be shared. Please try again.'); }
+    finally { setPosting(false); }
+  };
+  return <div id="GameCenter_DailyCheckIn" className="nd-page">
+    <BackLink /><PageHeading eyebrow="Daily Alpha" title="What’s on your radar?" description="A market thought, a fresh idea, or something worth sharing." />
+    <div className="nd-card nd-card-pad"><span className="nd-eyebrow">POSTING AS</span><p className="text-sm mt-2">{user?.nickname || user?.displayName}</p></div>
+    <div><label htmlFor="daily-alpha-post" className="nd-field-label">Your daily alpha</label><textarea id="daily-alpha-post" className="nd-textarea" placeholder="Share your perspective…" value={post} disabled={posting} onChange={event => setPost(event.target.value)} /></div>
+    <div className="nd-composer-bottom"><AddLocation onLocationChanged={setLocation} /><NeonButton disabled={!post.trim() || posting} loading={posting} onClick={() => void sendPost()} rightIcon={<ArrowUpRight size={16} />}>Share alpha</NeonButton></div>
+    {error && <p className="nd-error" role="alert">{error}</p>}
+  </div>;
 }

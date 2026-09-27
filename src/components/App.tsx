@@ -14,7 +14,7 @@ import { useEffect, type FC } from "react";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import { AppRoute, routes } from "@/navigation/routes.tsx";
-import { miniApp, postEvent, useLaunchParams } from "@telegram-apps/sdk-react";
+import { postEvent, useLaunchParams } from "@telegram-apps/sdk-react";
 import { CoinProvider } from "./DashFun/DashFunCoins";
 import { SpinWheelProvider } from "./DashFun/DashFunSpinWheel";
 import { UserProvider } from "./DashFun/DashFunUser";
@@ -41,7 +41,7 @@ const setupRoute = (route: AppRoute, wrapPage: boolean = true) => {
   return r;
 }
 
-export const App: FC = () => {
+export const App: FC<{ RouterComponent?: typeof BrowserRouter; telemetry?: boolean }> = ({ RouterComponent = BrowserRouter, telemetry = true }) => {
   const lp = useLaunchParams();
   const routesArr = []
 
@@ -61,13 +61,13 @@ export const App: FC = () => {
   return (
     <AppRoot
       id="appRoot"
-      appearance={miniApp.isDark() ? "dark" : "light"}
+      appearance="dark"
       platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
-      className="w-full h-full"
+      className="nd-theme w-full h-full"
     >
       {/* <TalkingDataLoader /> */}
-      <FirebaseLoader />
-      <BrowserRouter >
+      {telemetry && <FirebaseLoader />}
+      <RouterComponent>
         <LanguageProvider>
           <UserProvider>
             <CoinProvider>
@@ -82,7 +82,7 @@ export const App: FC = () => {
             </CoinProvider>
           </UserProvider>
         </LanguageProvider>
-      </BrowserRouter>
+      </RouterComponent>
     </AppRoot>
   );
 };

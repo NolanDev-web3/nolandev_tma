@@ -34,7 +34,8 @@ export function init(debug: boolean, platform: string): void {
 	miniApp.mount();
 	mainButton.mount();
 	themeParams.mount();
-	// miniApp.setHeaderColor("#eab308")
+	miniApp.setHeaderColor.ifAvailable("#0c1521");
+	miniApp.setBackgroundColor.ifAvailable("#0c1521");
 	swipeBehavior.isSupported() && swipeBehavior.mount();
 	closingBehavior.mount();
 

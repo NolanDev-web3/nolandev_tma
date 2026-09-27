@@ -1,61 +1,44 @@
-import { FC } from 'react';
+import { ArrowUpRight, Bookmark, Clock3, Orbit, Sprout, Sparkles, Layers3 } from 'lucide-react';
+import { money, poolStatus, type LaunchPool } from '../data/types';
 import { ProgressBar } from './ProgressBar';
-import { ChevronRight } from 'lucide-react';
 
-interface FeaturedPoolCardProps {
-	name: string;
-	ticker: string;
-	logoUrl?: string; // Optional, placeholder used if missing
-	raised: number;
-	target: number;
+export const PoolLogo = ({ pool, large = false }: { pool: LaunchPool; large?: boolean }) => {
+  const Icon = { mint: Orbit, purple: Sprout, orange: Sparkles, blue: Layers3 }[pool.color] ?? Orbit;
+  return <span className={`lp-logo lp-${pool.color} ${large ? 'lp-logo-large' : ''}`}><Icon size={large ? 38 : 25} strokeWidth={1.6} /></span>;
+};
+export const StatusBadge = ({ pool }: { pool: LaunchPool }) => {
+  const status = poolStatus(pool);
+  return <span className={`lp-status lp-status-${status}`}><span />{status === 'live' ? 'Live now' : status === 'upcoming' ? 'Upcoming' : 'Ended'}</span>;
+};
+export const dateLabel = (date: string) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+export function timeLabel(pool: LaunchPool): string {
+  const status = poolStatus(pool);
+  if (status === 'ended') return `Ended ${dateLabel(pool.endsAt)}`;
+  if (status === 'upcoming') return `Opens ${dateLabel(pool.startsAt)}`;
+  const hours = Math.max(1, Math.ceil((Date.parse(pool.endsAt) - Date.now()) / 3600000));
+  return hours >= 24 ? `${Math.floor(hours / 24)}d ${hours % 24}h left` : `${hours}h left`;
 }
-
-export const FeaturedPoolCard: FC<FeaturedPoolCardProps> = ({ name, ticker, raised, target }) => {
-	const percentage = (raised / target) * 100;
-
-	return (
-		<div className="relative group rounded-2xl p-[1px] bg-gradient-to-br from-defi-accent-blue/30 to-defi-accent-purple/30 hover:from-defi-accent-blue/60 hover:to-defi-accent-purple/60 transition-all duration-300">
-			<div className="absolute inset-0 bg-gradient-to-br from-defi-accent-blue/10 to-defi-accent-purple/10 blur-xl opacity-50" />
-
-			<div className="relative bg-defi-card-bg/90 backdrop-blur-md rounded-2xl p-5 border border-white/5 shadow-xl">
-				{/* Header */}
-				<div className="flex items-center gap-4 mb-6">
-					<div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-xl font-bold text-defi-bg-base shrink-0">
-						{/* Placeholder Logo if no URL */}
-						{ticker[0]}
-					</div>
-					<div>
-						<h3 className="text-white text-lg font-bold">{name}</h3>
-						<span className="text-defi-text-muted text-sm font-medium">{ticker}</span>
-					</div>
-					<div className="ml-auto px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-bold border border-green-500/30 animate-pulse">
-						LIVE
-					</div>
-				</div>
-
-				{/* Stats */}
-				<div className="space-y-4">
-					<div className="flex justify-between items-end text-sm">
-						<span className="text-defi-text-muted">Raised</span>
-						<div className="text-right">
-							<span className="text-white font-semibold">${raised.toLocaleString()}</span>
-							<span className="text-defi-text-muted text-xs"> / ${target.toLocaleString()}</span>
-						</div>
-					</div>
-
-					<ProgressBar progress={percentage} />
-
-					<div className="flex justify-between text-xs text-defi-text-muted mt-1">
-						<span>{percentage.toFixed(1)}%</span>
-						<span>Target Reached</span>
-					</div>
-				</div>
-
-				{/* Action */}
-				<button className="w-full mt-6 bg-gradient-to-r from-defi-accent-blue to-defi-accent-purple text-white font-bold py-3.5 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all active:scale-[0.98] flex items-center justify-center gap-2">
-					Join Pool <ChevronRight size={18} />
-				</button>
-			</div>
-		</div>
-	);
+export interface PoolCardProps {
+  pool: LaunchPool;
+  saved: boolean;
+  onOpen: (pool: LaunchPool) => void;
+  onSave: (pool: LaunchPool) => void;
+  saving?: boolean;
+  featured?: boolean;
+}
+export const FeaturedPoolCard = ({ pool, saved, onOpen, onSave, saving, featured = false }: PoolCardProps) => {
+  const progress = pool.raisedCents / pool.targetCents * 100;
+  return <article className={`lp-pool-card ${featured ? 'lp-featured' : ''}`}>
+    {featured && <div className="lp-featured-label"><Sparkles size={13} /> IN THE SPOTLIGHT <span>01 / 01</span></div>}
+    <div className="lp-card-heading">
+      <PoolLogo pool={pool} large={featured} />
+      <div className="lp-project-name"><h3><button onClick={() => onOpen(pool)}>{pool.name}</button></h3><span>{pool.symbol} <b>·</b> {pool.category}</span></div>
+      <button className={`lp-icon-button ${saved ? 'is-saved' : ''}`} onClick={() => onSave(pool)} disabled={saving} aria-label={`${saved ? 'Unsave' : 'Save'} ${pool.name}`} aria-pressed={saved}><Bookmark size={19} fill={saved ? 'currentColor' : 'none'} /></button>
+    </div>
+    <p className="lp-summary">{pool.summary}</p>
+    <div className="lp-card-meta"><StatusBadge pool={pool} /><span><Clock3 size={13} />{timeLabel(pool)}</span></div>
+    <div className="lp-raise-label"><strong>{money(pool.raisedCents)} <small>USDT raised</small></strong><span>{Math.round(progress)}%</span></div>
+    <ProgressBar progress={progress} />
+    <div className="lp-card-bottom"><div><span>Token price</span><strong>{money(pool.priceCents)} USDT</strong></div><button className={featured ? 'lp-button lp-primary' : 'lp-button lp-secondary'} onClick={() => onOpen(pool)}>View pool <ArrowUpRight size={16} /></button></div>
+  </article>;
 };

@@ -1,46 +1,5 @@
-import { DFText } from "@/components/controls";
-import { FC, useEffect, useState } from "react";
-import { NeonCard } from "../NeonUI/NeonUI";
-
-//const kc_signup_url = "https://www.kucoin.com/ucenter/signup"
-
-export const CountDown: FC<{ remaining: number }> = ({ remaining = 0 }) => {
-	const [countdown, setCountdown] = useState<number>(remaining);
-
-	useEffect(() => {
-		setCountdown(remaining);
-	}, [remaining]);
-
-	//const days = Math.floor(countdown / (24 * 3600));
-	const hours = Math.floor(countdown / 3600);
-	const minutes = Math.floor((countdown % 3600) / 60);
-	const seconds = countdown % 60;
-
-	return (countdown <= 0 ? "" : <NeonCard className="w-full flex flex-col gap-4">
-		<div className="w-full flex flex-col items-center justify-center gap-2 py-2 px-4 ">
-			<DFText weight="3" size="xl">Check-in After:</DFText>
-			{/* <DFText weight="3" size="3xl">{hours}h {minutes}m {seconds}s</DFText> */}
-			<div className="w-full flex flex-row items-center justify-center gap-4">
-				<CountdownPanel countdown={hours} unit="Hr" />
-				<DFText size="3xl" weight="3">:</DFText>
-				<CountdownPanel countdown={minutes} unit="Min" />
-				<DFText size="3xl" weight="3">:</DFText>
-				<CountdownPanel countdown={seconds} unit="Sec" />
-			</div>
-		</div>
-	</NeonCard>
-	)
-}
-
-const CountdownPanel: FC<{ countdown: number, unit: string }> = ({ countdown, unit }) => {
-	return (
-		<div className="flex flex-col">
-			<div className="w-[70px] h-[50px] rounded-t-md bg-[#88888880] flex items-center justify-center">
-				<DFText size="3xl" weight="3">{countdown.toString().padStart(2, "0")}</DFText>
-			</div>
-			<div className="w-[70px] h-[20px] rounded-b-md bg-[#888888F0]">
-				<DFText size="sm" weight="1" className="w-full text-center">{unit}</DFText>
-			</div>
-		</div>
-	);
+export function CountDown({ remaining }: { remaining: number }) {
+  if (remaining <= 0) return null;
+  const time = [Math.floor(remaining / 3600), Math.floor(remaining % 3600 / 60), remaining % 60].map(value => String(value).padStart(2, '0')).join(':');
+  return <div className="nd-card nd-countdown"><span>Next Daily Alpha in</span><strong>{time}</strong></div>;
 }

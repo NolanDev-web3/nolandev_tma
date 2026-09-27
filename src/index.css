@@ -1,10 +1,12 @@
+@import "./styles/theme.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
   	user-select: none;
-	background: var(--tg-theme-secondary-bg-color, white);
+	background: var(--nd-bg, #0c1521);
 	padding: 0;
 	margin: 0;
 	display: flex;

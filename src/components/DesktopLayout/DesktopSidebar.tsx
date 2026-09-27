@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { House, TrendingUpDown, Rocket, Gift, Trophy, Sparkles, ChevronRight, Clock } from 'lucide-react';
+import { House, TrendingUpDown, Rocket, Trophy, Sparkles, ChevronRight, Clock } from 'lucide-react';
 import { DFProfileAvatar } from '@/components/Avatar/Avatar';
 import { useDashFunUser } from '@/components/DashFun/DashFunUser';
 import { initData, useSignal } from '@telegram-apps/sdk-react';
@@ -19,7 +19,6 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'home', path: '/game-center/main', title: 'Home', icon: House },
   { id: 'forecast', path: '/game-center/games', title: 'Forecast', icon: TrendingUpDown, isLive: true },
   { id: 'launchpad', path: '/game-center/launchpad', title: 'Launchpad', icon: Rocket },
-  { id: 'tasks', path: '/game-center/tasks', title: 'Tasks', icon: Gift, badge: '3' },
   { id: 'tops', path: '/game-center/tops', title: 'Leaderboard', icon: Trophy },
 ];
 

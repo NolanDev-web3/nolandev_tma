@@ -101,7 +101,7 @@ export const GameCenter_MainPage: FC = () => {
 		getPosts();
 		const handler = window.setInterval(() => {
 			updateTokenMarketsInfo();
-		}, 1000);
+		}, 10000);
 
 		return () => {
 			window.clearInterval(handler);

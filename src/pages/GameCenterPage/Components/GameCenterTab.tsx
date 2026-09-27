@@ -59,6 +59,7 @@ export const GameCenterTab = forwardRef<GameCenterTabRef>(({ }, ref) => {
 	const games = gamecenter.subRoutes?.find(r => r.id == "gamecenter-games") as AppRoute;
 	const tasks = gamecenter.subRoutes?.find(r => r.id == "gamecenter-tasks") as AppRoute;
 	const tops = gamecenter.subRoutes?.find(r => r.id == "gamecenter-tops") as AppRoute;
+	const launchpad = gamecenter.subRoutes?.find(r => r.id == "gamecenter-launchpad") as AppRoute;
 
 
 	useImperativeHandle(ref, () => ({
@@ -76,6 +77,7 @@ export const GameCenterTab = forwardRef<GameCenterTabRef>(({ }, ref) => {
 
 	const tabs: AppRoute[] = [
 		games,
+		launchpad,
 		main,
 		tops,
 	]

@@ -10,7 +10,8 @@ import { GameCenter_TaskPage } from "@/pages/GameCenterPage/SubPages/TaskPage";
 import EntryPage from "@/pages/Entry/EntryPage";
 import { FishingVerse_DailyCheckIn } from "@/pages/GameCenterPage/SubPages/DailyCheckIn";
 import { GameCenter_TopPage } from "@/pages/GameCenterPage/SubPages/TopsPage";
-import { Bitcoin, Gift, TrendingUpDown, Trophy } from "lucide-react";
+import LaunchpadPage from "@/pages/Launchpad/LaunchpadPage";
+import { Bitcoin, Gift, TrendingUpDown, Trophy, Rocket } from "lucide-react";
 import { createHashRouter, RouteObject, useNavigate } from "react-router-dom";
 
 export interface AppRoute {
@@ -65,6 +66,7 @@ export const routes: AppRoute[] = [
       { id: "gamecenter-games", path: "games", Component: GameCenter_GamesPage, allowYScroll: true, back: "/game-center/main", title: "Forecast", icon: <TrendingUpDown absoluteStrokeWidth size={28} /> },
       { id: "gamecenter-tasks", path: "tasks", Component: GameCenter_TaskPage, allowYScroll: true, back: "/game-center/main", title: "Tasks", icon: <Gift absoluteStrokeWidth size={28} /> },
       { id: "gamecenter-tops", path: "tops", Component: GameCenter_TopPage, allowYScroll: true, back: "/game-center/main", title: "Top", icon: <Trophy absoluteStrokeWidth size={28} /> },
+      { id: "gamecenter-launchpad", path: "launchpad", Component: LaunchpadPage, allowYScroll: true, back: "/game-center/main", title: "Launchpad", icon: <Rocket absoluteStrokeWidth size={28} /> },
       { id: "gamecenter-profile", path: "profile", Component: GameCenter_Profile, allowYScroll: true, back: "/game-center/main" },
       { id: "fishing-verse-daily-checkin", path: "daily-checkin", Component: FishingVerse_DailyCheckIn, allowYScroll: true, back: "/game-center/main" }
     ]

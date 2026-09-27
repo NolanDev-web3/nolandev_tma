@@ -9,7 +9,6 @@ const BREADCRUMB_MAP: Record<string, { section: string; title: string }> = {
   '/game-center/main': { section: 'Nolan', title: 'Home Overview' },
   '/game-center/games': { section: 'Nolan', title: 'Market Forecast' },
   '/game-center/launchpad': { section: 'Nolan', title: 'Launchpad Pools' },
-  '/game-center/tasks': { section: 'Nolan', title: 'Community Tasks' },
   '/game-center/tops': { section: 'Nolan', title: 'Leaderboard Rankings' },
   '/game-center/profile': { section: 'Nolan', title: 'User Profile' },
   '/game-center/daily-checkin': { section: 'Nolan', title: 'Daily Check-In' },
@@ -64,7 +63,7 @@ export const DesktopTopBar: FC = () => {
               Available Balance
             </span>
             <span className="text-xs font-bold text-[#bbf5d1] font-mono leading-tight">
-              1,000.00 <small className="text-[#9dc9af]">USDT</small>
+              0.00 <small className="text-[#9dc9af]">USDT</small>
             </span>
           </div>
         </div>

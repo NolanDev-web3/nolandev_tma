@@ -5,6 +5,7 @@ import { DFProfileAvatar } from '@/components/Avatar/Avatar';
 import { useDashFunUser } from '@/components/DashFun/DashFunUser';
 import { initData, useSignal } from '@telegram-apps/sdk-react';
 import { NolanDevApi } from '@/utils/DashFunApi';
+import nolanIcon from '@/icons/nolan-icon-512.png';
 
 interface NavItem {
   id: string;
@@ -76,9 +77,11 @@ export const DesktopSidebar: FC = () => {
     <aside className="hidden md:flex flex-col w-64 bg-[#101c29]/95 border-r border-[#263445] shrink-0 sticky top-0 h-screen z-30 select-none">
       {/* Brand Header */}
       <div className="p-6 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl bg-[#213b30] border border-[#365447] flex items-center justify-center font-bold text-[#bbf5d1] text-base shadow-sm">
-          ▲
-        </div>
+        <img
+          src={nolanIcon}
+          alt="Nolan"
+          className="w-9 h-9 rounded-xl object-contain shadow-sm border border-[#365447] bg-[#1a2e26]"
+        />
         <div>
           <div className="flex items-center gap-1.5">
             <span className="font-bold tracking-wider text-white text-base">NOLAN</span>

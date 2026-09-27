@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { DFProfileAvatar } from '@/components/Avatar/Avatar';
 import { useDashFunCoins } from '@/components/DashFun/DashFunCoins';
 import { useDashFunUser } from '@/components/DashFun/DashFunUser';
-import { Sparkles, Wallet } from 'lucide-react';
+import { Wallet } from 'lucide-react';
+import npIcon from '@/icons/np-icon.png';
 
 const BREADCRUMB_MAP: Record<string, { section: string; title: string }> = {
   '/game-center/main': { section: 'Nolan', title: 'Home Overview' },
@@ -40,8 +41,8 @@ export const DesktopTopBar: FC = () => {
           className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#1b302b] hover:bg-[#233f38] border border-[#365447] transition group"
           title="Nolan Points"
         >
-          <span className="w-5 h-5 rounded-lg bg-[#2c4438] text-[#bbf5d1] flex items-center justify-center text-[10px] font-bold">
-            <Sparkles size={12} />
+          <span className="w-5 h-5 rounded-lg bg-[#2c4438] flex items-center justify-center p-0.5 overflow-hidden">
+            <img src={npIcon} alt="NP" className="w-full h-full object-contain" />
           </span>
           <div className="text-left">
             <span className="text-[9px] uppercase tracking-wider text-[#91a1b5] group-hover:text-white transition block leading-none">

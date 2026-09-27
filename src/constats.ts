@@ -1,5 +1,5 @@
 import { GameData } from "./components/DashFunData/GameData";
-import dashfunIcon from "./icons/dashfun-icon.svg";
+import nolanIcon from "./icons/nolan-icon-512.png";
 import dashfunPointIcon from "./icons/dashfun-xp-icon.png";
 import dashfunCoinIcon from "./icons/dashfun-coin-icon.png";
 import npIcon from "./icons/np-icon.png";
@@ -64,7 +64,7 @@ export const GetTaskIcon = (task: Task): string => {
 		case TaskCondition.PlaySpecificGame:
 			return getImageUrl(task.require.condition, "icon.png");
 		default:
-			return dashfunIcon;
+			return nolanIcon;
 	}
 
 }
@@ -186,7 +186,7 @@ export const getCoinIcon = (coinName: "DashFunCoin" | "DashFunPoint" | "DashFunD
 		case "NolanDevPoint":
 			return npIcon;
 		default:
-			return dashfunIcon;
+			return nolanIcon;
 	}
 };
 
@@ -203,7 +203,7 @@ export const GameDashFun = () => new GameData({
 	name: "DashFun",
 	genre: [],
 	desc: "",
-	iconUrl: "https://res.dashfun.games/icons/dashfun-icon-256.png",
+	iconUrl: "https://res.dashfun.games/icons/nolan-icon-512.png",
 	logoUrl: "",
 	mainPicUrl: "",
 	openTime: 0,

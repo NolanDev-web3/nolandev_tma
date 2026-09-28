@@ -5,7 +5,8 @@ import { Player } from "@lottiefiles/react-lottie-player";
 import { initData } from "@telegram-apps/sdk-react";
 import { Spinner } from '@telegram-apps/telegram-ui';
 import { FormInput as Input } from '@/components/Design/Primitives';
-import { Binary, KeySquare, Mail, Repeat2, Orbit } from 'lucide-react';
+import { Binary, KeySquare, Mail, Repeat2 } from 'lucide-react';
+import nolanIcon from '@/icons/nolan-icon-512.png';
 import React, { useEffect, useState } from 'react';
 import { DFLabel, DFText } from '../controls';
 import useDashFunSafeArea from "../DashFun/DashFunSafeArea";
@@ -61,7 +62,7 @@ type UiMode = -1 | 0 | 1 | 2 | 3; //-1=loading 0=signin, 1=signup, 2=reset passw
 const Header: React.FC<{ mode: UiMode }> = ({ mode }) => {
   const title = mode === 1 ? 'Start something new.' : mode === 2 ? 'Let’s get you back.' : mode === 3 ? 'Check your inbox.' : 'Welcome back.';
   const description = mode === 1 ? 'Your next chapter in the Nolan community.' : mode === 2 ? 'Reset your password to return to Nolan.' : mode === 3 ? 'Verify your email to finish setting up your account.' : 'Your markets, your community, your next move.';
-  return <header className="nd-auth-header"><div className="nd-auth-brand"><span className="nd-auth-mark"><Orbit size={23} /></span>NOLAN</div><span className="nd-eyebrow">{mode === 1 ? 'CREATE AN ACCOUNT' : mode === 2 ? 'ACCOUNT RECOVERY' : mode === 3 ? 'EMAIL VERIFICATION' : 'YOUR DAILY EDGE'}</span><h1>{title}</h1><p>{description}</p></header>;
+  return <header className="nd-auth-header"><div className="nd-auth-brand"><span className="nd-auth-mark overflow-hidden p-1 bg-[#1a2e26] border border-[#365447]"><img src={nolanIcon} alt="Nolan" className="w-full h-full object-contain" /></span>NOLAN</div><span className="nd-eyebrow">{mode === 1 ? 'CREATE AN ACCOUNT' : mode === 2 ? 'ACCOUNT RECOVERY' : mode === 3 ? 'EMAIL VERIFICATION' : 'YOUR DAILY EDGE'}</span><h1>{title}</h1><p>{description}</p></header>;
 };
 
 const DashFunLogin: React.FC<{ restoreSession?: boolean }> = ({ restoreSession = true }) => {

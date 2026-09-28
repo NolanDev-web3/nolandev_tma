@@ -2,7 +2,8 @@ import AvatarUpload from "@/pages/GameCenterPage/Components/AvatarUploader";
 import { FishingVerseApi } from "@/utils/DashFunApi";
 import { initData, useSignal } from "@telegram-apps/sdk-react";
 import { FormInput as Input } from "@/components/Design/Primitives";
-import { User, Orbit } from "lucide-react";
+import { User } from "lucide-react";
+import nolanIcon from "@/icons/nolan-icon-512.png";
 import { FC, useState } from "react";
 import { DFLabel } from "../controls";
 import useDashFunSafeArea from "../DashFun/DashFunSafeArea";
@@ -65,7 +66,7 @@ const SetupProfile: FC = () => {
 
 	return <div className="nd-auth-shell">
 		<div id="DashFunLogin" className="nd-auth" style={{ paddingTop: safeArea.top + "px", paddingBottom: safeArea.bottom + "px" }}>
-            <header className="nd-auth-header"><div className="nd-auth-brand"><span className="nd-auth-mark"><Orbit size={23} /></span>NOLAN</div><span className="nd-eyebrow">ONE LAST THING</span><h1>Make yourself at home.</h1><p>Choose a photo and the name your community will see.</p></header>
+            <header className="nd-auth-header"><div className="nd-auth-brand"><span className="nd-auth-mark overflow-hidden p-1 bg-[#1a2e26] border border-[#365447]"><img src={nolanIcon} alt="Nolan" className="w-full h-full object-contain" /></span>NOLAN</div><span className="nd-eyebrow">ONE LAST THING</span><h1>Make yourself at home.</h1><p>Choose a photo and the name your community will see.</p></header>
 			<AvatarUpload size={88} onAvatarSelected={(avatar) => {
 				setAvatar(avatar)
 			}} />
